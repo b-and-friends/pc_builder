@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Build your custom PC with our advanced PC Builder tool. Compare components, check compatibility, and create your dream computer.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <title>PC Builder - System Builder</title>
+    <style>
+        :root {
+            --primary: #005eff;
+            --secondary: #00bfff;
+            --dark: #0a0f1f;
+            --nav-dark: rgba(17, 28, 60, 0.9);
+            --menu-dark: #0d1b40;
+            --light: #ffffff;
+            --gray: #dcdcdc;
+            --dark-gray: #444;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Roboto', Arial, sans-serif;
+            background-color: var(--dark);
+            color: var(--light);
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Skip to content link for accessibility */
+        .skip-link {
+            position: absolute;
+            top: -40px;
+            left: 0;
+            background: var(--primary);
+            color: white;
+            padding: 8px;
+            z-index: 100;
+            transition: top 0.3s;
+        }
+        
+        .skip-link:focus {
+            top: 0;
+        }
+        
+        /* Navbar styles */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: var(--nav-dark);
+            padding: 15px 30px;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+        
+        .navbar .logo-search {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            flex-grow: 1;
+        }
+        
+        .navbar .search-container {
+            display: flex;
+            align-items: center;
+            position: relative;
+            flex-grow: 1;
+            max-width: 500px;
+        }
+        
+        .navbar .search-container input {
+            padding: 8px 15px 8px 35px;
+            width: 100%;
+            border-radius: 20px;
+            border: none;
+            font-size: 16px;
+            background-color: rgba(255, 255, 255, 0.9);
+            transition: all 0.3s ease;
+        }
+        
+        .navbar .search-container input:focus {
+            background-color: white;
+            box-shadow: 0 0 0 2px var(--secondary);
+        }
+        
+        .navbar .search-container .search-icon {
+            position: absolute;
+            left: 12px;
+            color: var(--dark-gray);
+            pointer-events: none;
+        }
+        
+        .navbar .logo {
+            font-size: 2.5rem;
+            font-weight: bold;
+            font-family: 'Orbitron', sans-serif;
+            border: 3px solid var(--secondary);
+            padding: 10px 20px;
+            border-radius: 10px;
+            background: linear-gradient(to bottom, rgb(212, 209, 209) 50%, var(--secondary) 50%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-decoration: none;
+            transition: transform 0.3s ease;
+        }
+        
+        .navbar .logo:hover {
+            transform: scale(1.05);
+        }
+        
+        .navbar .auth-cart {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+        }
+        
+        .navbar .auth, .navbar .cart {
+            color: var(--light);
+            text-decoration: none;
+            font-size: 1.2rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: color 0.3s ease;
+        }
+        
+        .navbar .auth i, .navbar .cart i {
+            font-size: 1.3rem;
+        }
+        
+        .navbar .auth:hover, .navbar .cart:hover {
+            color: var(--secondary);
+        }
+        
+        /* Menu styles */
+        .menu {
+            display: flex;
+            background-color: var(--menu-dark);
+            padding: 10px 30px;
+            gap: 15px;
+            overflow-x: auto;
+            scrollbar-width: none;
+        }
+        
+        .menu::-webkit-scrollbar {
+            display: none;
+        }
+        
+        .menu a {
+            color: var(--light);
+            text-decoration: none;
+            padding: 10px 20px;
+            display: flex;
+            align-items: center;
+            border: 2px solid var(--light);
+            border-radius: 5px;
+            gap: 10px;
+            white-space: nowrap;
+            transition: all 0.3s ease;
+        }
+        
+        .menu a.active, .menu a:hover {
+            background-color: var(--primary);
+            border-color: var(--primary);
+        }
+        
+        .menu a i {
+            font-size: 1.1rem;
+        }
+
+        /* System Builder Content */
+        .builder-container {
+            padding: 30px;
+            flex-grow: 1;
+        }
+
+        .builder-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .builder-header h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.5rem;
+            color: var(--secondary);
+            margin-bottom: 15px;
+        }
+
+        .builder-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .component-category {
+            background-color: var(--nav-dark);
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .category-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            border-bottom: 1px solid var(--secondary);
+            padding-bottom: 10px;
+        }
+
+        .category-header h2 {
+            font-family: 'Orbitron', sans-serif;
+            color: var(--secondary);
+        }
+
+        .add-component {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .add-component:hover {
+            background-color: #0047cc;
+        }
+
+        .component-list {
+            list-style: none;
+        }
+
+        .component-item {
+            padding: 10px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .component-item:last-child {
+            border-bottom: none;
+        }
+
+        /* Footer styles */
+        footer {
+            background-color: var(--menu-dark);
+            color: var(--light);
+            padding: 40px 5%;
+            text-align: center;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            text-align: left;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .footer-column h3 {
+            font-family: 'Orbitron', sans-serif;
+            color: var(--secondary);
+            margin-bottom: 20px;
+            font-size: 1.2rem;
+        }
+        
+        .footer-column ul {
+            list-style: none;
+        }
+        
+        .footer-column ul li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-column ul li a {
+            color: var(--gray);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-column ul li a:hover {
+            color: var(--secondary);
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .social-links a {
+            color: var(--light);
+            font-size: 1.5rem;
+            transition: color 0.3s;
+        }
+        
+        .social-links a:hover {
+            color: var(--secondary);
+        }
+        
+        .copyright {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.9rem;
+            color: var(--gray);
+        }
+
+        /* Responsive styles */
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                gap: 15px;
+                padding: 15px;
+            }
+            
+            .navbar .logo-search {
+                width: 100%;
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .builder-header h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Skip to content link (visible on focus for accessibility) -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
+    <!-- Header/Navigation -->
+    <header class="navbar" role="banner">
+        <div class="logo-search">
+            <a href="index.html" class="logo" aria-label="PC Builder">PC BUILDER</a>
+            <div class="search-container">
+                <label for="search" class="sr-only">Search products</label>
+                <i class="fas fa-search search-icon" aria-hidden="true"></i>
+                <input type="text" id="search" placeholder="Search components..." aria-label="Search products">
+            </div>
+        </div>
+        <div class="auth-cart">
+            <a href="login/signin.html" class="auth" aria-label="Sign in or register">
+                <i class="fas fa-user" aria-hidden="true"></i>Sign In / Register
+            </a>
+            <a href="cart.html" class="cart" aria-label="Shopping cart">
+                <i class="fas fa-shopping-cart" aria-hidden="true"></i> Cart <span class="cart-count">(0)</span>
+            </a>
+        </div>
+    </header>
+
+    <!-- Secondary Navigation -->
+    <nav class="menu" role="navigation">
+        <a href="system_builder.html" class="active" aria-current="page">
+            <i class="fas fa-tools" aria-hidden="true"></i> System Builder
+        </a>
+        <a href="pre_build_pc.html">
+            <i class="fas fa-desktop" aria-hidden="true"></i> Pre-Build PC
+        </a>
+        <a href="components.html">
+            <i class="fas fa-microchip" aria-hidden="true"></i> Components
+        </a>
+        <a href="guides.html">
+            <i class="fas fa-book" aria-hidden="true"></i> Guides
+        </a>
+        <a href="deals.html">
+            <i class="fas fa-tag" aria-hidden="true"></i> Deals
+        </a>
+    </nav>
+
+    <!-- Main Content -->
+    <main id="main-content" class="builder-container">
+        <div class="builder-header">
+            <h1>System Builder</h1>
+            <p>Select your components to build your perfect PC</p>
+        </div>
+
+        <div class="builder-grid">
+            <!-- CPU Category -->
+            <div class="component-category">
+                <div class="category-header">
+                    <h2><i class="fas fa-microchip"></i> Processor (CPU)</h2>
+                    <button class="add-component">Add</button>
+                </div>
+                <ul class="component-list">
+                    <li class="component-item">No component selected</li>
+                </ul>
+            </div>
+
+            <!-- GPU Category -->
+            <div class="component-category">
+                <div class="category-header">
+                    <h2><i class="fas fa-gamepad"></i> Graphics Card (GPU)</h2>
+                    <button class="add-component">Add</button>
+                </div>
+                <ul class="component-list">
+                    <li class="component-item">No component selected</li>
+                </ul>
+            </div>
+
+            <!-- Motherboard Category -->
+            <div class="component-category">
+                <div class="category-header">
+                    <h2><i class="fas fa-project-diagram"></i> Motherboard</h2>
+                    <button class="add-component">Add</button>
+                </div>
+                <ul class="component-list">
+                    <li class="component-item">No component selected</li>
+                </ul>
+            </div>
+
+            <!-- RAM Category -->
+            <div class="component-category">
+                <div class="category-header">
+                    <h2><i class="fas fa-memory"></i> Memory (RAM)</h2>
+                    <button class="add-component">Add</button>
+                </div>
+                <ul class="component-list">
+                    <li class="component-item">No component selected</li>
+                </ul>
+            </div>
+
+            <!-- Storage Category -->
+            <div class="component-category">
+                <div class="category-header">
+                    <h2><i class="fas fa-hdd"></i> Storage</h2>
+                    <button class="add-component">Add</button>
+                </div>
+                <ul class="component-list">
+                    <li class="component-item">No component selected</li>
+                </ul>
+            </div>
+
+            <!-- PSU Category -->
+            <div class="component-category">
+                <div class="category-header">
+                    <h2><i class="fas fa-plug"></i> Power Supply (PSU)</h2>
+                    <button class="add-component">Add</button>
+                </div>
+                <ul class="component-list">
+                    <li class="component-item">No component selected</li>
+                </ul>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-column">
+                <h3>Shop</h3>
+                <ul>
+                    <li><a href="#">Pre-built PCs</a></li>
+                    <li><a href="#">Custom Builds</a></li>
+                    <li><a href="#">Components</a></li>
+                    <li><a href="#">Accessories</a></li>
+                    <li><a href="#">Deals</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-column">
+                <h3>Support</h3>
+                <ul>
+                    <li><a href="#">Contact Us</a></li>
+                    <li><a href="#">FAQs</a></li>
+                    <li><a href="#">Shipping</a></li>
+                    <li><a href="#">Returns</a></li>
+                    <li><a href="#">Warranty</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-column">
+                <h3>Company</h3>
+                <ul>
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Careers</a></li>
+                    <li><a href="#">Blog</a></li>
+                    <li><a href="#">Reviews</a></li>
+                    <li><a href="#">Press</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-column">
+                <h3>Connect</h3>
+                <p>Follow us on social media</p>
+                <div class="social-links">
+                    <a href="#" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+                    <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                    <a href="#" aria-label="Discord"><i class="fab fa-discord"></i></a>
+                </div>
+                <p style="margin-top: 20px;">Subscribe to our newsletter</p>
+                <input type="email" placeholder="Your email" style="padding: 8px; width: 100%; border-radius: 4px; border: none; margin-top: 5px;">
+            </div>
+        </div>
+        
+        <div class="copyright">
+            &copy; 2025 PC Builder. All rights reserved.
+        </div>
+    </footer>
+
+    <!-- Screen reader only class -->
+    <style>
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border-width: 0;
+        }
+    </style>
+</body>
+</html>

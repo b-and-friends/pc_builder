@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Learn how to build and optimize your PC with our detailed guides.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <title>Guides - PC Builder</title>
+    <style>
+        /* Use styles from pre_build_pc.html */
+        :root {
+            --primary: #005eff;
+            --secondary: #00bfff;
+            --dark: #0a0f1f;
+            --nav-dark: rgba(17, 28, 60, 0.9);
+            --menu-dark: #0d1b40;
+            --light: #ffffff;
+            --gray: #dcdcdc;
+            --dark-gray: #444;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Roboto', Arial, sans-serif;
+            background-color: var(--dark);
+            color: var(--light);
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        header {
+            background-color: var(--nav-dark);
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--light);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo i {
+            color: var(--secondary);
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 20px;
+        }
+
+        nav a {
+            color: var(--light);
+            text-decoration: none;
+            font-size: 1rem;
+            transition: color 0.3s;
+            padding: 5px 10px;
+            border-radius: 4px;
+        }
+
+        nav a:hover, nav a.active {
+            color: var(--secondary);
+            background-color: rgba(0, 191, 255, 0.1);
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--light);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        main {
+            padding: 50px 5%;
+            flex-grow: 1;
+        }
+
+        h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 30px;
+            color: var(--secondary);
+        }
+
+        .guide-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+        }
+
+        .guide-card {
+            background-color: var(--nav-dark);
+            border-radius: 8px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(0, 191, 255, 0.1);
+        }
+
+        .guide-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 191, 255, 0.2);
+            border-color: var(--secondary);
+        }
+
+        .guide-img {
+            height: 200px;
+            background: linear-gradient(135deg, #1a2a4a 0%, #0a0f1f 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .guide-img img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            transition: transform 0.3s;
+        }
+
+        .guide-card:hover .guide-img img {
+            transform: scale(1.05);
+        }
+
+        .guide-info {
+            padding: 20px;
+        }
+
+        .guide-info h3 {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+        }
+
+        .guide-info p {
+            font-size: 0.9rem;
+            color: var(--gray);
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: var(--primary);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-size: 1rem;
+            transition: all 0.3s;
+            text-align: center;
+            width: 100%;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background-color: #0047cc;
+            transform: translateY(-2px);
+        }
+
+        footer {
+            background-color: var(--nav-dark);
+            padding: 30px;
+            text-align: center;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            text-align: left;
+        }
+
+        .footer-column h3 {
+            color: var(--secondary);
+            margin-bottom: 15px;
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        .footer-column ul {
+            list-style: none;
+        }
+
+        .footer-column li {
+            margin-bottom: 8px;
+        }
+
+        .footer-column a {
+            color: var(--gray);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-column a:hover {
+            color: var(--secondary);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .social-links a {
+            color: var(--light);
+            font-size: 1.2rem;
+        }
+
+        .copyright {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+
+        /* Responsive styles */
+        @media (max-width: 768px) {
+            header {
+                padding: 15px 20px;
+            }
+            
+            nav ul {
+                display: none;
+                position: absolute;
+                top: 70px;
+                left: 0;
+                right: 0;
+                background-color: var(--menu-dark);
+                flex-direction: column;
+                padding: 20px;
+                gap: 15px;
+            }
+            
+            nav ul.show {
+                display: flex;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .guide-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="index.html" class="logo">
+            <i class="fas fa-book"></i> PC BUILDER
+        </a>
+        <button class="mobile-menu-btn" id="menuBtn">
+            <i class="fas fa-bars"></i>
+        </button>
+        <nav>
+            <ul id="navMenu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="guides.html" class="active">Guides</a></li>
+                <li><a href="components.html">Components</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <h1>PC Building Guides</h1>
+        <div class="guide-grid">
+            <!-- Guide 1 -->
+            <div class="guide-card">
+                <div class="guide-img">
+                    <img src="images/guide1.png" alt="Guide 1">
+                </div>
+                <div class="guide-info">
+                    <h3>How to Build a Gaming PC</h3>
+                    <p>Step-by-step instructions to assemble your gaming rig, from choosing components to final assembly and setup.</p>
+                    <a href="guide-gaming-pc.html" class="btn">Read Guide</a>
+                </div>
+            </div>
+
+            <!-- Guide 2 -->
+            <div class="guide-card">
+                <div class="guide-img">
+                    <img src="images/guide2.png" alt="Guide 2">
+                </div>
+                <div class="guide-info">
+                    <h3>Optimizing Your PC for Gaming</h3>
+                    <p>Tips and tricks to get the best performance from your PC, including BIOS settings and software optimization.</p>
+                    <a href="guide-optimization.html" class="btn">Read Guide</a>
+                </div>
+            </div>
+
+            <!-- Guide 3 -->
+            <div class="guide-card">
+                <div class="guide-img">
+                    <img src="images/guide3.png" alt="Guide 3">
+                </div>
+                <div class="guide-info">
+                    <h3>Choosing the Right Components</h3>
+                    <p>A comprehensive guide to selecting the best components for your needs and budget.</p>
+                    <a href="guide-components.html" class="btn">Read Guide</a>
+                </div>
+            </div>
+
+            <!-- Guide 4 -->
+            <div class="guide-card">
+                <div class="guide-img">
+                    <img src="images/guide4.png" alt="Guide 4">
+                </div>
+                <div class="guide-info">
+                    <h3>PC Cooling Solutions</h3>
+                    <p>Learn about air cooling, liquid cooling, and how to keep your system running cool and quiet.</p>
+                    <a href="guide-cooling.html" class="btn">Read Guide</a>
+                </div>
+            </div>
+
+            <!-- Guide 5 -->
+            <div class="guide-card">
+                <div class="guide-img">
+                    <img src="images/guide5.png" alt="Guide 5">
+                </div>
+                <div class="guide-info">
+                    <h3>Cable Management Mastery</h3>
+                    <p>Professional techniques for clean cable management that improves airflow and aesthetics.</p>
+                    <a href="guide-cables.html" class="btn">Read Guide</a>
+                </div>
+            </div>
+
+            <!-- Guide 6 -->
+            <div class="guide-card">
+                <div class="guide-img">
+                    <img src="images/guide6.png" alt="Guide 6">
+                </div>
+                <div class="guide-info">
+                    <h3>Building a Budget PC</h3>
+                    <p>How to build a capable PC without breaking the bank - best value components and smart compromises.</p>
+                    <a href="guide-budget.html" class="btn">Read Guide</a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-column">
+                <h3>PC Builder</h3>
+                <p>Your complete resource for building and optimizing custom PCs since 2020.</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+            <div class="footer-column">
+                <h3>Guides</h3>
+                <ul>
+                    <li><a href="guide-gaming-pc.html">Gaming PC Build</a></li>
+                    <li><a href="guide-optimization.html">Performance Optimization</a></li>
+                    <li><a href="guide-components.html">Component Selection</a></li>
+                    <li><a href="guide-cooling.html">Cooling Solutions</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Resources</h3>
+                <ul>
+                    <li><a href="components.html">Component Database</a></li>
+                    <li><a href="#">Build Calculator</a></li>
+                    <li><a href="#">Compatibility Checker</a></li>
+                    <li><a href="#">Performance Benchmarks</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Support</h3>
+                <ul>
+                    <li><a href="contact.html">Contact Us</a></li>
+                    <li><a href="#">FAQs</a></li>
+                    <li><a href="#">Forums</a></li>
+                    <li><a href="#">Shipping & Returns</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>&copy; 2025 PC Builder. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        const menuBtn = document.getElementById('menuBtn');
+        const navMenu = document.getElementById('navMenu');
+        
+        menuBtn.addEventListener('click', () => {
+            navMenu.classList.toggle('show');
+        });
+        
+        // Close menu when clicking on a link
+        const navLinks = document.querySelectorAll('nav a');
+        navLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                if (window.innerWidth <= 768) {
+                    navMenu.classList.remove('show');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

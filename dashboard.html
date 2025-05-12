@@ -1,0 +1,912 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PC Builder Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1e40af;
+            --secondary: #10b981;
+            --danger: #ef4444;
+            --danger-dark: #dc2626;
+            --dark: #1e293b;
+            --light: #f8fafc;
+            --gray: #94a3b8;
+            --light-blue: #dbeafe;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f1f5f9;
+            color: #334155;
+            line-height: 1.6;
+        }
+
+        /* Navbar */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            background-color: var(--dark);
+            color: white;
+            box-shadow: var(--shadow-md);
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            font-family: 'Orbitron', sans-serif;
+            background: linear-gradient(90deg, #00bfff, #3b82f6);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            letter-spacing: 1px;
+        }
+
+        .search-container {
+            flex: 0 1 600px;
+            position: relative;
+            margin: 0 2rem;
+        }
+
+        .search-container input {
+            width: 100%;
+            padding: 0.75rem 1rem 0.75rem 3rem;
+            border-radius: 2rem;
+            border: none;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        .search-container input::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .search-container input:focus {
+            outline: none;
+            background-color: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.5);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .nav-icon {
+            font-size: 1.5rem;
+            color: white;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .nav-icon:hover {
+            color: #00bfff;
+            transform: translateY(-2px);
+        }
+
+        .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background-color: var(--danger);
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: bold;
+        }
+
+        /* Main Content */
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--dark);
+            font-weight: 700;
+        }
+
+        .breadcrumb {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            color: var(--gray);
+        }
+
+        .breadcrumb a {
+            color: var(--primary);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .breadcrumb a:hover {
+            color: var(--primary-dark);
+            text-decoration: underline;
+        }
+
+        /* Compatibility Banner */
+        .compatibility-banner {
+            background: linear-gradient(135deg, var(--secondary), #059669);
+            color: white;
+            padding: 1.25rem;
+            border-radius: 0.5rem;
+            margin: 2rem 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: var(--shadow);
+        }
+
+        .compatibility-status {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .compatibility-icon {
+            font-size: 1.5rem;
+        }
+
+        .wattage-display {
+            background-color: rgba(255, 255, 255, 0.2);
+            padding: 0.5rem 1rem;
+            border-radius: 2rem;
+            font-weight: 500;
+        }
+
+        /* Components Table */
+        .components-table {
+            width: 100%;
+            background-color: white;
+            border-radius: 0.5rem;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            margin-bottom: 2rem;
+            border-collapse: collapse;
+        }
+
+        .components-table th {
+            background-color: var(--dark);
+            color: white;
+            padding: 1rem;
+            text-align: left;
+            font-weight: 500;
+            text-transform: uppercase;
+            font-size: 0.875rem;
+            letter-spacing: 0.5px;
+        }
+
+        .components-table td {
+            padding: 1.25rem 1rem;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .components-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .components-table tr:hover td {
+            background-color: #f8fafc;
+        }
+
+        .component-type {
+            font-weight: 500;
+            color: var(--dark);
+        }
+
+        .component-image {
+            width: 80px;
+            height: 80px;
+            object-fit: contain;
+            border-radius: 0.25rem;
+            border: 1px solid #e2e8f0;
+            background-color: white;
+        }
+
+        .component-name {
+            font-weight: 500;
+            margin-bottom: 0.25rem;
+        }
+
+        .component-specs {
+            color: var(--gray);
+            font-size: 0.875rem;
+        }
+
+        .component-price {
+            font-weight: 700;
+            color: var(--dark);
+        }
+
+        .action-button {
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .add-button {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .add-button:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-1px);
+            box-shadow: var(--shadow);
+        }
+
+        .remove-button {
+            background-color: var(--danger);
+            color: white;
+        }
+
+        .remove-button:hover {
+            background-color: var(--danger-dark);
+            transform: translateY(-1px);
+            box-shadow: var(--shadow);
+        }
+
+        .view-button {
+            background-color: transparent;
+            color: var(--primary);
+            border: 1px solid var(--primary);
+        }
+
+        .view-button:hover {
+            background-color: rgba(37, 99, 235, 0.1);
+        }
+
+        /* Total and Checkout */
+        .checkout-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: white;
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+            box-shadow: var(--shadow);
+        }
+
+        .total-price {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .total-amount {
+            color: var(--primary);
+        }
+
+        .checkout-button {
+            background-color: var(--primary);
+            color: white;
+            padding: 0.75rem 2rem;
+            border-radius: 0.375rem;
+            font-weight: 500;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .checkout-button:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        /* Modal */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+            backdrop-filter: blur(4px);
+        }
+
+        .modal-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 0.5rem;
+            width: 90%;
+            max-width: 600px;
+            box-shadow: var(--shadow-lg);
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--dark);
+        }
+
+        .close-button {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--gray);
+            transition: var(--transition);
+        }
+
+        .close-button:hover {
+            color: var(--danger);
+            transform: rotate(90deg);
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .product-card {
+            border: 1px solid #e2e8f0;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        .product-card:hover {
+            border-color: var(--primary);
+            box-shadow: var(--shadow);
+            transform: translateY(-2px);
+        }
+
+        .product-card.selected {
+            border: 2px solid var(--primary);
+            background-color: #eff6ff;
+        }
+
+        .product-image {
+            width: 100%;
+            height: 120px;
+            object-fit: contain;
+            margin-bottom: 1rem;
+            background-color: #f8fafc;
+            border-radius: 0.25rem;
+        }
+
+        .product-name {
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .product-price {
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .product-specs {
+            font-size: 0.875rem;
+            color: var(--gray);
+            margin-bottom: 0.5rem;
+        }
+
+        .modal-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 2rem;
+            color: var(--gray);
+        }
+
+        .empty-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: #cbd5e1;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                padding: 1rem;
+                gap: 1rem;
+            }
+
+            .search-container {
+                width: 100%;
+                margin: 0;
+            }
+
+            .nav-actions {
+                width: 100%;
+                justify-content: space-between;
+            }
+
+            .components-table {
+                display: block;
+                overflow-x: auto;
+            }
+
+            .product-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .checkout-section {
+                flex-direction: column;
+                gap: 1.5rem;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <div class="navbar">
+        <div class="logo">PC BUILDER</div>
+        
+        <div class="search-container">
+            <i class="fas fa-search search-icon"></i>
+            <input type="text" placeholder="Search components...">
+        </div>
+        
+        <div class="nav-actions">
+            <a href="#" class="nav-icon" title="Profile">
+                <i class="fas fa-user-circle"></i>
+            </a>
+            <a href="#" class="nav-icon" title="Cart">
+                <i class="fas fa-shopping-cart"></i>
+                <span class="cart-count">0</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container">
+        <div class="header">
+            <h1>System Builder</h1>
+            <div class="breadcrumb">
+                <a href="#">Home</a>
+                <span>/</span>
+                <span>System Builder</span>
+            </div>
+        </div>
+
+        <!-- Compatibility Banner -->
+        <div class="compatibility-banner">
+            <div class="compatibility-status">
+                <i class="fas fa-check-circle compatibility-icon"></i>
+                <div>
+                    <strong>Compatibility:</strong> No issues found
+                </div>
+            </div>
+            <div class="wattage-display">
+                <i class="fas fa-bolt"></i>
+                <span>Estimated Wattage: <strong>450W</strong></span>
+            </div>
+        </div>
+
+        <!-- Components Table -->
+        <table class="components-table">
+            <thead>
+                <tr>
+                    <th>Component</th>
+                    <th>Selection</th>
+                    <th>Details</th>
+                    <th>Price</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="component-type">CPU</td>
+                    <td>
+                        <button class="add-button" onclick="showModal('CPU')">
+                            <i class="fas fa-plus"></i> Add CPU
+                        </button>
+                    </td>
+                    <td></td>
+                    <td></td>
+                    <td>
+                        <button class="remove-button" disabled>
+                            <i class="fas fa-trash"></i> Remove
+                        </button>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="component-type">Motherboard</td>
+                    <td>
+                        <button class="add-button" onclick="showModal('Motherboard')">
+                            <i class="fas fa-plus"></i> Add Motherboard
+                        </button>
+                    </td>
+                    <td></td>
+                    <td></td>
+                    <td>
+                        <button class="remove-button" disabled>
+                            <i class="fas fa-trash"></i> Remove
+                        </button>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="component-type">GPU</td>
+                    <td>
+                        <button class="add-button" onclick="showModal('GPU')">
+                            <i class="fas fa-plus"></i> Add GPU
+                        </button>
+                    </td>
+                    <td></td>
+                    <td></td>
+                    <td>
+                        <button class="remove-button" disabled>
+                            <i class="fas fa-trash"></i> Remove
+                        </button>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="component-type">RAM</td>
+                    <td>
+                        <button class="add-button" onclick="showModal('RAM')">
+                            <i class="fas fa-plus"></i> Add RAM
+                        </button>
+                    </td>
+                    <td></td>
+                    <td></td>
+                    <td>
+                        <button class="remove-button" disabled>
+                            <i class="fas fa-trash"></i> Remove
+                        </button>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="component-type">Storage</td>
+                    <td>
+                        <button class="add-button" onclick="showModal('Storage')">
+                            <i class="fas fa-plus"></i> Add Storage
+                        </button>
+                    </td>
+                    <td></td>
+                    <td></td>
+                    <td>
+                        <button class="remove-button" disabled>
+                            <i class="fas fa-trash"></i> Remove
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- Total and Checkout -->
+        <div class="checkout-section">
+            <div class="total-price">
+                Total: <span class="total-amount">$0.00</span>
+            </div>
+            <button class="checkout-button" disabled>
+                <i class="fas fa-shopping-cart"></i> Proceed to Checkout
+            </button>
+        </div>
+    </div>
+
+    <!-- Product Selection Modal -->
+    <div id="product-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Select a <span id="modal-component-type">CPU</span></h2>
+                <button class="close-button" onclick="closeModal()">&times;</button>
+            </div>
+            
+            <div class="product-grid">
+                <!-- Sample Product Cards -->
+                <div class="product-card" onclick="selectProduct(this)">
+                    <img src="https://example.com/cpu1.jpg" alt="CPU" class="product-image">
+                    <h3 class="product-name">AMD Ryzen 9 5950X</h3>
+                    <div class="product-price">$699.99</div>
+                    <div class="product-specs">16 Cores, 32 Threads, 3.4GHz</div>
+                </div>
+                
+                <div class="product-card" onclick="selectProduct(this)">
+                    <img src="https://example.com/cpu2.jpg" alt="CPU" class="product-image">
+                    <h3 class="product-name">Intel Core i9-12900K</h3>
+                    <div class="product-price">$599.99</div>
+                    <div class="product-specs">16 Cores, 24 Threads, 3.2GHz</div>
+                </div>
+                
+                <div class="product-card" onclick="selectProduct(this)">
+                    <img src="https://example.com/cpu3.jpg" alt="CPU" class="product-image">
+                    <h3 class="product-name">AMD Ryzen 7 5800X</h3>
+                    <div class="product-price">$449.99</div>
+                    <div class="product-specs">8 Cores, 16 Threads, 3.8GHz</div>
+                </div>
+                
+                <div class="product-card" onclick="selectProduct(this)">
+                    <img src="https://example.com/cpu4.jpg" alt="CPU" class="product-image">
+                    <h3 class="product-name">Intel Core i7-12700K</h3>
+                    <div class="product-price">$399.99</div>
+                    <div class="product-specs">12 Cores, 20 Threads, 3.6GHz</div>
+                </div>
+            </div>
+            
+            <div class="modal-actions">
+                <button class="action-button view-button" onclick="viewProductDetails()">
+                    <i class="fas fa-info-circle"></i> View Details
+                </button>
+                <button class="action-button add-button" onclick="addSelectedProduct()" disabled id="add-product-btn">
+                    <i class="fas fa-plus"></i> Add to Build
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Current selected component type and product
+        let currentComponentType = '';
+        let selectedProduct = null;
+        
+        // Show modal for specific component type
+        function showModal(componentType) {
+            currentComponentType = componentType;
+            document.getElementById('modal-component-type').textContent = componentType;
+            document.getElementById('product-modal').style.display = 'flex';
+            
+            // In a real app, you would fetch products for this component type here
+            // fetchProducts(componentType);
+        }
+        
+        // Close modal
+        function closeModal() {
+            document.getElementById('product-modal').style.display = 'none';
+            selectedProduct = null;
+            resetProductSelection();
+        }
+        
+        // Select a product card
+        function selectProduct(card) {
+            // Remove selected class from all cards
+            document.querySelectorAll('.product-card').forEach(c => {
+                c.classList.remove('selected');
+            });
+            
+            // Add selected class to clicked card
+            card.classList.add('selected');
+            
+            // Enable add button
+            document.getElementById('add-product-btn').disabled = false;
+            
+            // Store selected product details
+            selectedProduct = {
+                name: card.querySelector('.product-name').textContent,
+                price: card.querySelector('.product-price').textContent,
+                specs: card.querySelector('.product-specs').textContent,
+                image: card.querySelector('.product-image').src
+            };
+        }
+        
+        // Reset product selection
+        function resetProductSelection() {
+            document.querySelectorAll('.product-card').forEach(c => {
+                c.classList.remove('selected');
+            });
+            document.getElementById('add-product-btn').disabled = true;
+        }
+        
+        // Add selected product to build
+        function addSelectedProduct() {
+            if (!selectedProduct) return;
+            
+            // Find the row for the current component type
+            const rows = document.querySelectorAll('.components-table tbody tr');
+            let targetRow = null;
+            
+            for (const row of rows) {
+                if (row.querySelector('.component-type').textContent === currentComponentType) {
+                    targetRow = row;
+                    break;
+                }
+            }
+            
+            if (targetRow) {
+                const cells = targetRow.querySelectorAll('td');
+                
+                // Update selection cell with image and name
+                cells[1].innerHTML = `
+                    <img src="${selectedProduct.image}" alt="${selectedProduct.name}" class="component-image">
+                `;
+                
+                // Update details cell
+                cells[2].innerHTML = `
+                    <div class="component-name">${selectedProduct.name}</div>
+                    <div class="component-specs">${selectedProduct.specs}</div>
+                `;
+                
+                // Update price cell
+                cells[3].innerHTML = `
+                    <div class="component-price">${selectedProduct.price}</div>
+                `;
+                
+                // Update actions cell
+                cells[4].innerHTML = `
+                    <button class="view-button" onclick="viewProduct('${selectedProduct.name}')">
+                        <i class="fas fa-external-link-alt"></i> View
+                    </button>
+                    <button class="remove-button" onclick="removeComponent('${currentComponentType}')">
+                        <i class="fas fa-trash"></i> Remove
+                    </button>
+                `;
+                
+                // Update total
+                updateTotal();
+                
+                // Update cart count
+                updateCartCount();
+                
+                // Enable checkout button if at least one component is selected
+                const checkoutBtn = document.querySelector('.checkout-button');
+                if (!checkoutBtn.disabled) return;
+                
+                const hasComponents = Array.from(rows).some(row => {
+                    return row.querySelector('.component-image') !== null;
+                });
+                
+                checkoutBtn.disabled = !hasComponents;
+            }
+            
+            closeModal();
+        }
+        
+        // Remove component from build
+        function removeComponent(componentType) {
+            const rows = document.querySelectorAll('.components-table tbody tr');
+            
+            for (const row of rows) {
+                if (row.querySelector('.component-type').textContent === componentType) {
+                    const cells = row.querySelectorAll('td');
+                    
+                    // Reset selection cell
+                    cells[1].innerHTML = `
+                        <button class="add-button" onclick="showModal('${componentType}')">
+                            <i class="fas fa-plus"></i> Add ${componentType}
+                        </button>
+                    `;
+                    
+                    // Reset other cells
+                    cells[2].innerHTML = '';
+                    cells[3].innerHTML = '';
+                    cells[4].innerHTML = `
+                        <button class="remove-button" disabled>
+                            <i class="fas fa-trash"></i> Remove
+                        </button>
+                    `;
+                    
+                    break;
+                }
+            }
+            
+            // Update total
+            updateTotal();
+            
+            // Update cart count
+            updateCartCount();
+            
+            // Disable checkout button if no components are selected
+            const hasComponents = Array.from(rows).some(row => {
+                return row.querySelector('.component-image') !== null;
+            });
+            
+            document.querySelector('.checkout-button').disabled = !hasComponents;
+        }
+        
+        // Update total price
+        function updateTotal() {
+            const prices = document.querySelectorAll('.component-price');
+            let total = 0;
+            
+            prices.forEach(priceEl => {
+                if (priceEl.textContent) {
+                    const price = parseFloat(priceEl.textContent.replace('$', '').replace(',', ''));
+                    total += price;
+                }
+            });
+            
+            document.querySelector('.total-amount').textContent = `$${total.toFixed(2)}`;
+        }
+        
+        // Update cart count
+        function updateCartCount() {
+            const components = document.querySelectorAll('.component-image');
+            document.querySelector('.cart-count').textContent = components.length;
+        }
+        
+        // View product details (placeholder)
+        function viewProduct(productName) {
+            alert(`Viewing details for: ${productName}`);
+        }
+        
+        // View product details from modal (placeholder)
+        function viewProductDetails() {
+            if (selectedProduct) {
+                alert(`Viewing details for: ${selectedProduct.name}`);
+            } else {
+                alert('Please select a product first');
+            }
+        }
+        
+        // Proceed to checkout (placeholder)
+        function proceedToCheckout() {
+            alert('Proceeding to checkout with your build');
+        }
+        
+        // Initialize
+        document.querySelector('.checkout-button').addEventListener('click', proceedToCheckout);
+    </script>
+</body>
+</html>

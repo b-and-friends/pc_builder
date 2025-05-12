@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cart - PC Builder</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background-color: #f5f5f5;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #344195;
+            padding: 15px 20px;
+            color: white;
+        }
+
+        .logo {
+            font-size: 36px;
+            font-weight: bold;
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        .cart-container {
+            width: 90%;
+            margin: 20px auto;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            border: 1px solid #ccc;
+            padding: 12px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #344195;
+            color: white;
+        }
+
+        .total {
+            text-align: right;
+            font-size: 18px;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+
+        .checkout-button {
+            display: block;
+            width: 200px;
+            margin: 20px auto;
+            padding: 10px;
+            background-color: #2ecc71;
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+
+        .checkout-button:hover {
+            background-color: #27ae60;
+        }
+
+        .empty-cart {
+            text-align: center;
+            font-size: 18px;
+            color: #555;
+            margin: 20px 0;
+        }
+
+        header {
+            background-color: #344195;
+            color: white;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+        }
+
+        nav ul li {
+            margin-right: 20px;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+        }
+
+        main {
+            width: 90%;
+            max-width: 800px;
+            margin: 20px auto;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+
+        .cart-summary {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        .cart-item {
+            border-bottom: 1px solid #ccc;
+            padding: 10px 0;
+        }
+
+        .cart-item h3 {
+            margin: 0;
+            font-size: 18px;
+        }
+
+        .cart-item p {
+            margin: 5px 0;
+        }
+
+        footer {
+            text-align: center;
+            padding: 10px 0;
+            background-color: #344195;
+            color: white;
+            position: relative;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <div class="navbar">
+        <div class="logo">PC BUILDER</div>
+        <a href="system_builder.html" style="color: white; text-decoration: none;">Back to Builder</a>
+    </div>
+
+    <!-- Cart Container -->
+    <div class="cart-container">
+        <h2>Your Cart</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Component</th>
+                    <th>Product</th>
+                    <th>Price</th>
+                    <th>Remove</th>
+                </tr>
+            </thead>
+            <tbody id="cart-items">
+                <!-- Rows will be dynamically added here -->
+            </tbody>
+        </table>
+        <div class="empty-cart" id="empty-cart-message" style="display: none;">Your cart is empty.</div>
+        <div class="total">Total: $<span id="cart-total">0.00</span></div>
+        <a href="#" class="checkout-button" onclick="checkout()">Checkout</a>
+    </div>
+
+    <script>
+        // Load cart items from localStorage
+        function loadCart() {
+            const cartItems = JSON.parse(localStorage.getItem('cart')) || [];
+            const cartTable = document.getElementById('cart-items');
+            const emptyCartMessage = document.getElementById('empty-cart-message');
+            cartTable.innerHTML = ''; // Clear existing rows
+
+            if (cartItems.length === 0) {
+                emptyCartMessage.style.display = 'block';
+            } else {
+                emptyCartMessage.style.display = 'none';
+                cartItems.forEach((item, index) => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${item.component}</td>
+                        <td>${item.product}</td>
+                        <td>$${item.price.toFixed(2)}</td>
+                        <td><button onclick="removeFromCart(${index})">Remove</button></td>
+                    `;
+                    cartTable.appendChild(row);
+                });
+            }
+
+            updateTotal();
+        }
+
+        // Remove an item from the cart
+        function removeFromCart(index) {
+            const cartItems = JSON.parse(localStorage.getItem('cart')) || [];
+            cartItems.splice(index, 1); // Remove the item at the specified index
+            localStorage.setItem('cart', JSON.stringify(cartItems));
+            loadCart(); // Reload the cart
+        }
+
+        // Update the total price
+        function updateTotal() {
+            const cartItems = JSON.parse(localStorage.getItem('cart')) || [];
+            const total = cartItems.reduce((sum, item) => sum + item.price, 0);
+            document.getElementById('cart-total').textContent = total.toFixed(2);
+        }
+
+        // Checkout functionality
+        function checkout() {
+            const cartItems = JSON.parse(localStorage.getItem('cart')) || [];
+            if (cartItems.length === 0) {
+                alert('Your cart is empty.');
+                return;
+            }
+
+            fetch('api/checkout.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ cart: cartItems })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Checkout successful!');
+                    localStorage.removeItem('cart'); // Clear the cart
+                    loadCart(); // Reload the cart
+                } else {
+                    alert(data.error || 'Checkout failed.');
+                }
+            })
+            .catch(error => {
+                console.error('Error during checkout:', error);
+                alert('An error occurred during checkout.');
+            });
+        }
+
+        // Initialize the cart on page load
+        window.onload = loadCart;
+    </script>
+</body>
+</html>
