@@ -3,12 +3,278 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Detailed guide on how to build a gaming PC.">
+    <meta name="description" content="Learn how to build and optimize your PC with our detailed guides.">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
-    <title>How to Build a Gaming PC - PC Builder</title>
+    <title>Guides - PC Builder</title>
     <style>
-        /* ... [STYLES UNCHANGED, OMITTED FOR BREVITY] ... */
+        /* Use styles from pre_build_pc.html */
+        :root {
+            --primary: #005eff;
+            --secondary: #00bfff;
+            --dark: #0a0f1f;
+            --nav-dark: rgba(17, 28, 60, 0.9);
+            --menu-dark: #0d1b40;
+            --light: #ffffff;
+            --gray: #dcdcdc;
+            --dark-gray: #444;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Roboto', Arial, sans-serif;
+            background-color: var(--dark);
+            color: var(--light);
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        header {
+            background-color: var(--nav-dark);
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--light);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo i {
+            color: var(--secondary);
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 20px;
+        }
+
+        nav a {
+            color: var(--light);
+            text-decoration: none;
+            font-size: 1rem;
+            transition: color 0.3s;
+            padding: 5px 10px;
+            border-radius: 4px;
+        }
+
+        nav a:hover, nav a.active {
+            color: var(--secondary);
+            background-color: rgba(0, 191, 255, 0.1);
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--light);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        main {
+            padding: 50px 5%;
+            flex-grow: 1;
+        }
+
+        h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 30px;
+            color: var(--secondary);
+        }
+
+        .guide-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+        }
+
+        .guide-card {
+            background-color: var(--nav-dark);
+            border-radius: 8px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(0, 191, 255, 0.1);
+        }
+
+        .guide-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 191, 255, 0.2);
+            border-color: var(--secondary);
+        }
+
+        .guide-img {
+            height: 200px;
+            background: linear-gradient(135deg, #1a2a4a 0%, #0a0f1f 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .guide-img img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            transition: transform 0.3s;
+        }
+
+        .guide-card:hover .guide-img img {
+            transform: scale(1.05);
+        }
+
+        .guide-info {
+            padding: 20px;
+        }
+
+        .guide-info h3 {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+        }
+
+        .guide-info p {
+            font-size: 0.9rem;
+            color: var(--gray);
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: var(--primary);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-size: 1rem;
+            transition: all 0.3s;
+            text-align: center;
+            width: 100%;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background-color: #0047cc;
+            transform: translateY(-2px);
+        }
+
+        footer {
+            background-color: var(--nav-dark);
+            padding: 30px;
+            text-align: center;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            text-align: left;
+        }
+
+        .footer-column h3 {
+            color: var(--secondary);
+            margin-bottom: 15px;
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        .footer-column ul {
+            list-style: none;
+        }
+
+        .footer-column li {
+            margin-bottom: 8px;
+        }
+
+        .footer-column a {
+            color: var(--gray);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-column a:hover {
+            color: var(--secondary);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .social-links a {
+            color: var(--light);
+            font-size: 1.2rem;
+        }
+
+        .copyright {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+
+        /* Responsive styles */
+        @media (max-width: 768px) {
+            header {
+                padding: 15px 20px;
+            }
+            
+            nav ul {
+                display: none;
+                position: absolute;
+                top: 70px;
+                left: 0;
+                right: 0;
+                background-color: var(--menu-dark);
+                flex-direction: column;
+                padding: 20px;
+                gap: 15px;
+            }
+            
+            nav ul.show {
+                display: flex;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .guide-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -30,117 +296,145 @@
     </header>
 
     <main>
-        <h1>How to Build a Gaming PC</h1>
-        <div class="guide-container">
-            <!-- Step 1 -->
-            <div class="step">
-                <h2>Step 1: Choose Your Components</h2>
-                <p>Selecting the right components is crucial for building a gaming PC. You'll need a processor, motherboard, RAM, storage, graphics card, power supply, and case.</p>
-                <h3>Guide: Choosing the Right Components for Your Gaming PC</h3>
-                <p>Building a gaming PC starts with selecting the right components. Here's a breakdown of what you need:</p>
-                <ol>
-                    <li><strong>Processor (CPU)</strong>: The brain of your computer. Look for a CPU with high clock speeds and multiple cores. Popular choices include Intel Core i7/i9 and AMD Ryzen 5/7/9 series.</li>
-                    <li><strong>Motherboard</strong>: Ensure compatibility with your CPU. Check the socket type and chipset. Features to consider include RAM slots, PCIe slots, and connectivity options.</li>
-                    <li><strong>RAM</strong>: Aim for at least 16GB of DDR4 RAM for gaming. Higher speeds (e.g., 3200MHz or higher) can improve performance.</li>
-                    <li><strong>Storage</strong>: SSDs offer faster load times compared to HDDs. Consider an NVMe SSD for your operating system and frequently played games.</li>
-                    <li><strong>Graphics Card (GPU)</strong>: The most crucial component for gaming. Look for GPUs from NVIDIA (RTX series) or AMD (RX series) with sufficient VRAM for your gaming needs.</li>
-                    <li><strong>Power Supply (PSU)</strong>: Choose a PSU with enough wattage to power all your components. A modular PSU can help with cable management.</li>
-                    <li><strong>Case</strong>: Ensure it has good airflow and can accommodate your components. Consider factors like size, cooling options, and aesthetics.</li>
-                </ol>
-                <p><strong>Tips:</strong></p>
-                <ul>
-                    <li>Use PC part picker websites to ensure compatibility between components.</li>
-                    <li>Read reviews and benchmarks to make informed decisions.</li>
-                    <li>Consider future upgrades when selecting components.</li>
-                </ul>
+        <h1>PC Building Guides</h1>
+        <div class="guide-grid">
+            <!-- Guide 1 -->
+            <div class="guide-card">
+                <div class="guide-img">
+                    <img src="images/guide1.png" alt="Guide 1">
+                </div>
+                <div class="guide-info">
+                    <h3>How to Build a Gaming PC</h3>
+                    <p>Step-by-step instructions to assemble your gaming rig, from choosing components to final assembly and setup.</p>
+                    <a href="guide-gaming-pc.html" class="btn">Read Guide</a>
+                </div>
             </div>
 
-            <!-- Step 2 -->
-            <div class="step">
-                <h2>Step 2: Prepare Your Workspace</h2>
-                <p>Ensure you have a clean, well-lit workspace with all the necessary tools. An anti-static wrist strap is recommended to prevent damage to components.</p>
-                <h3>Guide: Preparing Your Workspace for PC Assembly</h3>
-                <p>A well-prepared workspace can make the assembly process smoother and more enjoyable:</p>
-                <ol>
-                    <li><strong>Clean and Spacious Area</strong>: Use a large table with plenty of space to lay out your components and tools.</li>
-                    <li><strong>Good Lighting</strong>: Ensure your workspace is well-lit to see small components and connections clearly.</li>
-                    <li><strong>Anti-Static Measures</strong>: Use an anti-static wrist strap to prevent static electricity from damaging sensitive components.</li>
-                    <li><strong>Tools</strong>: Gather necessary tools such as screwdrivers, zip ties, and thermal paste.</li>
-                    <li><strong>Organization</strong>: Use small containers or magnetic trays to keep screws and small parts organized.</li>
-                </ol>
-                <p><strong>Tips:</strong></p>
-                <ul>
-                    <li>Keep your workspace free of clutter.</li>
-                    <li>Have a trash bin nearby for disposing of packaging materials.</li>
-                    <li>Label cables and components to stay organized.</li>
-                </ul>
+            <!-- Guide 2 -->
+            <div class="guide-card">
+                <div class="guide-img">
+                    <img src="images/guide2.png" alt="Guide 2">
+                </div>
+                <div class="guide-info">
+                    <h3>Optimizing Your PC for Gaming</h3>
+                    <p>Tips and tricks to get the best performance from your PC, including BIOS settings and software optimization.</p>
+                    <a href="guide-optimization.html" class="btn">Read Guide</a>
+                </div>
             </div>
 
-            <!-- Step 3 -->
-            <div class="step">
-                <h2>Step 3: Install the CPU</h2>
-                <p>Carefully install the CPU into the motherboard socket. Be sure to align the notches correctly and avoid touching the pins.</p>
-                <h3>Guide: Installing the CPU</h3>
-                <p>Installing the CPU is a delicate process. Follow these steps carefully:</p>
-                <ol>
-                    <li><strong>Prepare the Motherboard</strong>: Place the motherboard on a flat, non-conductive surface.</li>
-                    <li><strong>Open the CPU Socket</strong>: Lift the retention arm on the CPU socket to open it.</li>
-                    <li><strong>Align the CPU</strong>: Match the notches on the CPU with the notches on the socket. Gently place the CPU into the socket without applying force.</li>
-                    <li><strong>Secure the CPU</strong>: Lower the retention arm to lock the CPU in place.</li>
-                </ol>
-                <p><strong>Tips:</strong></p>
-                <ul>
-                    <li>Avoid touching the pins on the CPU or socket.</li>
-                    <li>Double-check the alignment before securing the CPU.</li>
-                    <li>Handle the CPU by its edges to avoid damaging the delicate components.</li>
-                </ul>
+            <!-- Guide 3 -->
+            <div class="guide-card">
+                <div class="guide-img">
+                    <img src="images/guide3.png" alt="Guide 3">
+                </div>
+                <div class="guide-info">
+                    <h3>Choosing the Right Components</h3>
+                    <p>A comprehensive guide to selecting the best components for your needs and budget.</p>
+                    <a href="guide-components.html" class="btn">Read Guide</a>
+                </div>
             </div>
 
-            <!-- Step 4 -->
-            <div class="step">
-                <h2>Step 4: Install the RAM</h2>
-                <p>Insert the RAM sticks into the motherboard's RAM slots. Make sure they are properly seated and the clips are secured.</p>
-                <h3>Guide: Installing RAM</h3>
-                <p>Installing RAM is straightforward but requires attention to detail:</p>
-                <ol>
-                    <li><strong>Open the RAM Slots</strong>: Push down the clips on the RAM slots to open them.</li>
-                    <li><strong>Align the RAM</strong>: Match the notch on the RAM stick with the notch in the slot.</li>
-                    <li><strong>Insert the RAM</strong>: Press down firmly on both ends of the RAM stick until the clips snap into place.</li>
-                </ol>
-                <p><strong>Tips:</strong></p>
-                <ul>
-                    <li>Install RAM in pairs for dual-channel performance.</li>
-                    <li>Ensure the RAM is fully seated and the clips are secured.</li>
-                    <li>Refer to the motherboard manual for recommended RAM slots.</li>
-                </ul>
+            <!-- Guide 4 -->
+            <div class="guide-card">
+                <div class="guide-img">
+                    <img src="images/guide4.png" alt="Guide 4">
+                </div>
+                <div class="guide-info">
+                    <h3>PC Cooling Solutions</h3>
+                    <p>Learn about air cooling, liquid cooling, and how to keep your system running cool and quiet.</p>
+                    <a href="guide-cooling.html" class="btn">Read Guide</a>
+                </div>
             </div>
 
-            <!-- Step 5 -->
-            <div class="step">
-                <h2>Step 5: Install the Motherboard</h2>
-                <p>Place the motherboard into the case and secure it with screws. Ensure the I/O shield is properly aligned.</p>
-                <h3>Guide: Installing the Motherboard</h3>
-                <p>Installing the motherboard into the case is a crucial step:</p>
-                <ol>
-                    <li><strong>Prepare the Case</strong>: Remove any protective covers or packaging from the case.</li>
-                    <li><strong>Install Standoffs</strong>: Screw standoffs into the case to match the mounting holes on the motherboard.</li>
-                    <li><strong>Align the Motherboard</strong>: Carefully place the motherboard into the case, aligning the I/O shield with the back of the case.</li>
-                    <li><strong>Secure the Motherboard</strong>: Use screws to secure the motherboard to the standoffs.</li>
-                </ol>
-                <p><strong>Tips:</strong></p>
-                <ul>
-                    <li>Ensure the I/O shield is properly aligned before securing the motherboard.</li>
-                    <li>Avoid overtightening the screws to prevent damage to the motherboard.</li>
-                    <li>Double-check the alignment of all connections and ports.</li>
-                </ul>
+            <!-- Guide 5 -->
+            <div class="guide-card">
+                <div class="guide-img">
+                    <img src="images/guide5.png" alt="Guide 5">
+                </div>
+                <div class="guide-info">
+                    <h3>Cable Management Mastery</h3>
+                    <p>Professional techniques for clean cable management that improves airflow and aesthetics.</p>
+                    <a href="guide-cables.html" class="btn">Read Guide</a>
+                </div>
             </div>
 
-            <!-- Step 6 -->
-            <div class="step">
-                <h2>Step 6: Install the Power Supply</h2>
-                <p>Mount the power supply in the case and connect the necessary cables to the motherboard and other components.</p>
-                <h3>Guide: Installing the Power Supply</h3>
-                <p>The power supply provides power to all your components:</p>
-                <ol>
-                    <li><strong>*
-
+            <!-- Guide 6 -->
+            <div class="guide-card">
+                <div class="guide-img">
+                    <img src="images/guide6.png" alt="Guide 6">
+                </div>
+                <div class="guide-info">
+                    <h3>Building a Budget PC</h3>
+                    <p>How to build a capable PC without breaking the bank - best value components and smart compromises.</p>
+                    <a href="guide-budget.html" class="btn">Read Guide</a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-column">
+                <h3>PC Builder</h3>
+                <p>Your complete resource for building and optimizing custom PCs since 2020.</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+            <div class="footer-column">
+                <h3>Guides</h3>
+                <ul>
+                    <li><a href="guide-gaming-pc.html">Gaming PC Build</a></li>
+                    <li><a href="guide-optimization.html">Performance Optimization</a></li>
+                    <li><a href="guide-components.html">Component Selection</a></li>
+                    <li><a href="guide-cooling.html">Cooling Solutions</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Resources</h3>
+                <ul>
+                    <li><a href="components.html">Component Database</a></li>
+                    <li><a href="#">Build Calculator</a></li>
+                    <li><a href="#">Compatibility Checker</a></li>
+                    <li><a href="#">Performance Benchmarks</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Support</h3>
+                <ul>
+                    <li><a href="contact.html">Contact Us</a></li>
+                    <li><a href="#">FAQs</a></li>
+                    <li><a href="#">Forums</a></li>
+                    <li><a href="#">Shipping & Returns</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>&copy; 2025 PC Builder. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        const menuBtn = document.getElementById('menuBtn');
+        const navMenu = document.getElementById('navMenu');
+        
+        menuBtn.addEventListener('click', () => {
+            navMenu.classList.toggle('show');
+        });
+        
+        // Close menu when clicking on a link
+        const navLinks = document.querySelectorAll('nav a');
+        navLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                if (window.innerWidth <= 768) {
+                    navMenu.classList.remove('show');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
