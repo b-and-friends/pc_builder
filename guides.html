@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Learn how to build and optimize your PC with our detailed guides.">
+    <meta name="description" content="Detailed guide on how to build a gaming PC.">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
-    <title>Guides - PC Builder</title>
+    <title>How to Build a Gaming PC - PC Builder</title>
     <style>
-        /* Use styles from pre_build_pc.html */
+        /* Use styles from pre_build_pc.html and guides.html */
         :root {
             --primary: #005eff;
             --secondary: #00bfff;
@@ -105,61 +105,31 @@
             color: var(--secondary);
         }
 
-        .guide-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 25px;
-        }
-
-        .guide-card {
+        .guide-container {
+            max-width: 800px;
+            margin: 0 auto;
             background-color: var(--nav-dark);
             border-radius: 8px;
-            overflow: hidden;
-            transition: all 0.3s ease;
+            padding: 30px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            border: 1px solid rgba(0, 191, 255, 0.1);
         }
 
-        .guide-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0, 191, 255, 0.2);
-            border-color: var(--secondary);
+        .step {
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        .guide-img {
-            height: 200px;
-            background: linear-gradient(135deg, #1a2a4a 0%, #0a0f1f 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-        }
-
-        .guide-img img {
-            max-width: 100%;
-            max-height: 100%;
-            object-fit: contain;
-            transition: transform 0.3s;
-        }
-
-        .guide-card:hover .guide-img img {
-            transform: scale(1.05);
-        }
-
-        .guide-info {
-            padding: 20px;
-        }
-
-        .guide-info h3 {
-            font-size: 1.2rem;
+        .step h2 {
+            font-size: 1.5rem;
             margin-bottom: 10px;
+            color: var(--secondary);
         }
 
-        .guide-info p {
-            font-size: 0.9rem;
-            color: var(--gray);
+        .step p {
+            font-size: 1rem;
+            line-height: 1.6;
             margin-bottom: 15px;
-            line-height: 1.5;
         }
 
         .btn {
@@ -172,7 +142,6 @@
             font-size: 1rem;
             transition: all 0.3s;
             text-align: center;
-            width: 100%;
             border: none;
             cursor: pointer;
         }
@@ -245,7 +214,7 @@
             header {
                 padding: 15px 20px;
             }
-            
+
             nav ul {
                 display: none;
                 position: absolute;
@@ -257,22 +226,17 @@
                 padding: 20px;
                 gap: 15px;
             }
-            
+
             nav ul.show {
                 display: flex;
             }
-            
+
             .mobile-menu-btn {
                 display: block;
             }
-            
-            .guide-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .footer-content {
-                grid-template-columns: 1fr;
-                gap: 20px;
+
+            .guide-container {
+                padding: 20px;
             }
         }
     </style>
@@ -296,77 +260,238 @@
     </header>
 
     <main>
-        <h1>PC Building Guides</h1>
-        <div class="guide-grid">
-            <!-- Guide 1 -->
-            <div class="guide-card">
-                <div class="guide-img">
-                    <img src="images/guide1.png" alt="Guide 1">
-                </div>
-                <div class="guide-info">
-                    <h3>How to Build a Gaming PC</h3>
-                    <p>Step-by-step instructions to assemble your gaming rig, from choosing components to final assembly and setup.</p>
-                    <a href="guide-gaming-pc.html" class="btn">Read Guide</a>
-                </div>
-            </div>
-
-            <!-- Guide 2 -->
-            <div class="guide-card">
-                <div class="guide-img">
-                    <img src="images/guide2.png" alt="Guide 2">
-                </div>
-                <div class="guide-info">
-                    <h3>Optimizing Your PC for Gaming</h3>
-                    <p>Tips and tricks to get the best performance from your PC, including BIOS settings and software optimization.</p>
-                    <a href="guide-optimization.html" class="btn">Read Guide</a>
-                </div>
-            </div>
-
-            <!-- Guide 3 -->
-            <div class="guide-card">
-                <div class="guide-img">
-                    <img src="images/guide3.png" alt="Guide 3">
-                </div>
-                <div class="guide-info">
-                    <h3>Choosing the Right Components</h3>
-                    <p>A comprehensive guide to selecting the best components for your needs and budget.</p>
-                    <a href="guide-components.html" class="btn">Read Guide</a>
+        <h1>How to Build a Gaming PC</h1>
+        <div class="guide-container">
+            <!-- Step 1 -->
+            <div class="step">
+                <h2>Step 1: Choose Your Components</h2>
+                <p>Selecting the right components is crucial for building a gaming PC. You'll need a processor, motherboard, RAM, storage, graphics card, power supply, and case.</p>
+                <button class="btn" onclick="toggleGuide('guide1')">Read Guide</button>
+                <div id="guide1" style="display: none;">
+                    <h3>Guide: Choosing the Right Components for Your Gaming PC</h3>
+                    <p>Building a gaming PC starts with selecting the right components. Here's a breakdown of what you need:</p>
+                    <ol>
+                        <li><strong>Processor (CPU)</strong>: The brain of your computer. Look for a CPU with high clock speeds and multiple cores. Popular choices include Intel Core i7/i9 and AMD Ryzen 7/9.</li>
+                        <li><strong>Motherboard</strong>: Ensure compatibility with your CPU. Check the socket type and chipset. Features to consider include RAM slots, PCIe slots, and connectivity options.</li>
+                        <li><strong>RAM</strong>: Aim for at least 16GB of DDR4 RAM for gaming. Higher speeds (e.g., 3200MHz or higher) can improve performance.</li>
+                        <li><strong>Storage</strong>: SSDs offer faster load times compared to HDDs. Consider an NVMe SSD for your operating system and frequently played games.</li>
+                        <li><strong>Graphics Card (GPU)</strong>: The most crucial component for gaming. Look for GPUs from NVIDIA (RTX series) or AMD (RX series) with sufficient VRAM for your gaming needs.</li>
+                        <li><strong>Power Supply (PSU)</strong>: Choose a PSU with enough wattage to power all your components. A modular PSU can help with cable management.</li>
+                        <li><strong>Case</strong>: Ensure it has good airflow and can accommodate your components. Consider factors like size, cooling options, and aesthetics.</li>
+                    </ol>
+                    <p><strong>Tips:</strong></p>
+                    <ul>
+                        <li>Use PC part picker websites to ensure compatibility between components.</li>
+                        <li>Read reviews and benchmarks to make informed decisions.</li>
+                        <li>Consider future upgrades when selecting components.</li>
+                    </ul>
                 </div>
             </div>
 
-            <!-- Guide 4 -->
-            <div class="guide-card">
-                <div class="guide-img">
-                    <img src="images/guide4.png" alt="Guide 4">
-                </div>
-                <div class="guide-info">
-                    <h3>PC Cooling Solutions</h3>
-                    <p>Learn about air cooling, liquid cooling, and how to keep your system running cool and quiet.</p>
-                    <a href="guide-cooling.html" class="btn">Read Guide</a>
+            <!-- Step 2 -->
+            <div class="step">
+                <h2>Step 2: Prepare Your Workspace</h2>
+                <p>Ensure you have a clean, well-lit workspace with all the necessary tools. An anti-static wrist strap is recommended to prevent damage to components.</p>
+                <button class="btn" onclick="toggleGuide('guide2')">Read Guide</button>
+                <div id="guide2" style="display: none;">
+                    <h3>Guide: Preparing Your Workspace for PC Assembly</h3>
+                    <p>A well-prepared workspace can make the assembly process smoother and more enjoyable:</p>
+                    <ol>
+                        <li><strong>Clean and Spacious Area</strong>: Use a large table with plenty of space to lay out your components and tools.</li>
+                        <li><strong>Good Lighting</strong>: Ensure your workspace is well-lit to see small components and connections clearly.</li>
+                        <li><strong>Anti-Static Measures</strong>: Use an anti-static wrist strap to prevent static electricity from damaging sensitive components.</li>
+                        <li><strong>Tools</strong>: Gather necessary tools such as screwdrivers, zip ties, and thermal paste.</li>
+                        <li><strong>Organization</strong>: Use small containers or magnetic trays to keep screws and small parts organized.</li>
+                    </ol>
+                    <p><strong>Tips:</strong></p>
+                    <ul>
+                        <li>Keep your workspace free of clutter.</li>
+                        <li>Have a trash bin nearby for disposing of packaging materials.</li>
+                        <li>Label cables and components to stay organized.</li>
+                    </ul>
                 </div>
             </div>
 
-            <!-- Guide 5 -->
-            <div class="guide-card">
-                <div class="guide-img">
-                    <img src="images/guide5.png" alt="Guide 5">
-                </div>
-                <div class="guide-info">
-                    <h3>Cable Management Mastery</h3>
-                    <p>Professional techniques for clean cable management that improves airflow and aesthetics.</p>
-                    <a href="guide-cables.html" class="btn">Read Guide</a>
+            <!-- Step 3 -->
+            <div class="step">
+                <h2>Step 3: Install the CPU</h2>
+                <p>Carefully install the CPU into the motherboard socket. Be sure to align the notches correctly and avoid touching the pins.</p>
+                <button class="btn" onclick="toggleGuide('guide3')">Read Guide</button>
+                <div id="guide3" style="display: none;">
+                    <h3>Guide: Installing the CPU</h3>
+                    <p>Installing the CPU is a delicate process. Follow these steps carefully:</p>
+                    <ol>
+                        <li><strong>Prepare the Motherboard</strong>: Place the motherboard on a flat, non-conductive surface.</li>
+                        <li><strong>Open the CPU Socket</strong>: Lift the retention arm on the CPU socket to open it.</li>
+                        <li><strong>Align the CPU</strong>: Match the notches on the CPU with the notches on the socket. Gently place the CPU into the socket without applying force.</li>
+                        <li><strong>Secure the CPU</strong>: Lower the retention arm to lock the CPU in place.</li>
+                    </ol>
+                    <p><strong>Tips:</strong></p>
+                    <ul>
+                        <li>Avoid touching the pins on the CPU or socket.</li>
+                        <li>Double-check the alignment before securing the CPU.</li>
+                        <li>Handle the CPU by its edges to avoid damaging the delicate components.</li>
+                    </ul>
                 </div>
             </div>
 
-            <!-- Guide 6 -->
-            <div class="guide-card">
-                <div class="guide-img">
-                    <img src="images/guide6.png" alt="Guide 6">
+            <!-- Step 4 -->
+            <div class="step">
+                <h2>Step 4: Install the RAM</h2>
+                <p>Insert the RAM sticks into the motherboard's RAM slots. Make sure they are properly seated and the clips are secured.</p>
+                <button class="btn" onclick="toggleGuide('guide4')">Read Guide</button>
+                <div id="guide4" style="display: none;">
+                    <h3>Guide: Installing RAM</h3>
+                    <p>Installing RAM is straightforward but requires attention to detail:</p>
+                    <ol>
+                        <li><strong>Open the RAM Slots</strong>: Push down the clips on the RAM slots to open them.</li>
+                        <li><strong>Align the RAM</strong>: Match the notch on the RAM stick with the notch in the slot.</li>
+                        <li><strong>Insert the RAM</strong>: Press down firmly on both ends of the RAM stick until the clips snap into place.</li>
+                    </ol>
+                    <p><strong>Tips:</strong></p>
+                    <ul>
+                        <li>Install RAM in pairs for dual-channel performance.</li>
+                        <li>Ensure the RAM is fully seated and the clips are secured.</li>
+                        <li>Refer to the motherboard manual for recommended RAM slots.</li>
+                    </ul>
                 </div>
-                <div class="guide-info">
-                    <h3>Building a Budget PC</h3>
-                    <p>How to build a capable PC without breaking the bank - best value components and smart compromises.</p>
-                    <a href="guide-budget.html" class="btn">Read Guide</a>
+            </div>
+
+            <!-- Step 5 -->
+            <div class="step">
+                <h2>Step 5: Install the Motherboard</h2>
+                <p>Place the motherboard into the case and secure it with screws. Ensure the I/O shield is properly aligned.</p>
+                <button class="btn" onclick="toggleGuide('guide5')">Read Guide</button>
+                <div id="guide5" style="display: none;">
+                    <h3>Guide: Installing the Motherboard</h3>
+                    <p>Installing the motherboard into the case is a crucial step:</p>
+                    <ol>
+                        <li><strong>Prepare the Case</strong>: Remove any protective covers or packaging from the case.</li>
+                        <li><strong>Install Standoffs</strong>: Screw standoffs into the case to match the mounting holes on the motherboard.</li>
+                        <li><strong>Align the Motherboard</strong>: Carefully place the motherboard into the case, aligning the I/O shield with the back of the case.</li>
+                        <li><strong>Secure the Motherboard</strong>: Use screws to secure the motherboard to the standoffs.</li>
+                    </ol>
+                    <p><strong>Tips:</strong></p>
+                    <ul>
+                        <li>Ensure the I/O shield is properly aligned before securing the motherboard.</li>
+                        <li>Avoid overtightening the screws to prevent damage to the motherboard.</li>
+                        <li>Double-check the alignment of all connections and ports.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Step 6 -->
+            <div class="step">
+                <h2>Step 6: Install the Power Supply</h2>
+                <p>Mount the power supply in the case and connect the necessary cables to the motherboard and other components.</p>
+                <button class="btn" onclick="toggleGuide('guide6')">Read Guide</button>
+                <div id="guide6" style="display: none;">
+                    <h3>Guide: Installing the Power Supply</h3>
+                    <p>The power supply provides power to all your components:</p>
+                    <ol>
+                        <li><strong>Prepare the PSU</strong>: Remove the PSU from its packaging and set the voltage switch to the correct setting for your region.</li>
+                        <li><strong>Install the PSU</strong>: Place the PSU into the designated area in the case, usually at the bottom or top.</li>
+                        <li><strong>Secure the PSU</strong>: Use screws to secure the PSU to the case.</li>
+                        <li><strong>Connect Cables</strong>: Connect the necessary cables to the motherboard, GPU, and other components.</li>
+                    </ol>
+                    <p><strong>Tips:</strong></p>
+                    <ul>
+                        <li>Use a modular PSU for easier cable management.</li>
+                        <li>Route cables neatly to improve airflow and aesthetics.</li>
+                        <li>Ensure all connections are secure and properly seated.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Step 7 -->
+            <div class="step">
+                <h2>Step 7: Install the Graphics Card</h2>
+                <p>Insert the graphics card into the PCIe slot on the motherboard and secure it with screws. Connect any necessary power cables.</p>
+                <button class="btn" onclick="toggleGuide('guide7')">Read Guide</button>
+                <div id="guide7" style="display: none;">
+                    <h3>Guide: Installing the Graphics Card</h3>
+                    <p>The graphics card is essential for gaming performance:</p>
+                    <ol>
+                        <li><strong>Prepare the GPU</strong>: Remove the GPU from its packaging and remove any protective covers.</li>
+                        <li><strong>Remove Case Slots</strong>: Remove the metal slots on the case where the GPU will be installed.</li>
+                        <li><strong>Insert the GPU</strong>: Align the GPU with the PCIe slot on the motherboard and press down firmly until it clicks into place.</li>
+                        <li><strong>Secure the GPU</strong>: Use screws to secure the GPU to the case.</li>
+                        <li><strong>Connect Power Cables</strong>: Connect the necessary power cables from the PSU to the GPU.</li>
+                    </ol>
+                    <p><strong>Tips:</strong></p>
+                    <ul>
+                        <li>Ensure the GPU is properly seated in the PCIe slot.</li>
+                        <li>Use additional support if the GPU is heavy to prevent sagging.</li>
+                        <li>Connect all required power cables for optimal performance.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Step 8 -->
+            <div class="step">
+                <h2>Step 8: Install Storage</h2>
+                <p>Mount your SSD or HDD in the case and connect the data and power cables.</p>
+                <button class="btn" onclick="toggleGuide('guide8')">Read Guide</button>
+                <div id="guide8" style="display: none;">
+                    <h3>Guide: Installing Storage</h3>
+                    <p>Storage is where your operating system, games, and files will be stored:</p>
+                    <ol>
+                        <li><strong>Prepare the SSD/HDD</strong>: Remove the storage device from its packaging.</li>
+                        <li><strong>Install the Storage</strong>: Place the SSD/HDD into the designated area in the case, usually a drive bay or mounting bracket.</li>
+                        <li><strong>Secure the Storage</strong>: Use screws to secure the storage device to the case.</li>
+                        <li><strong>Connect Cables</strong>: Connect the data and power cables to the storage device.</li>
+                    </ol>
+                    <p><strong>Tips:</strong></p>
+                    <ul>
+                        <li>Use an NVMe SSD for faster load times.</li>
+                        <li>Ensure the storage device is properly aligned and secured.</li>
+                        <li>Connect the data cable to the correct port on the motherboard.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Step 9 -->
+            <div class="step">
+                <h2>Step 9: Connect All Cables</h2>
+                <p>Ensure all cables are properly connected, including power cables, SATA cables, and front panel connectors.</p>
+                <button class="btn" onclick="toggleGuide('guide9')">Read Guide</button>
+                <div id="guide9" style="display: none;">
+                    <h3>Guide: Connecting All Cables</h3>
+                    <p>Proper cable management is essential for airflow and aesthetics:</p>
+                    <ol>
+                        <li><strong>Motherboard Connections</strong>: Connect the power cables, SATA cables, and front panel connectors to the motherboard.</li>
+                        <li><strong>Component Connections</strong>: Ensure all components (GPU, storage, etc.) are properly connected.</li>
+                        <li><strong>Cable Management</strong>: Use zip ties or Velcro straps to bundle and route cables neatly.</li>
+                    </ol>
+                    <p><strong>Tips:</strong></p>
+                    <ul>
+                        <li>Refer to the motherboard manual for the correct placement of front panel connectors.</li>
+                        <li>Use cable ties to keep cables organized and out of the way.</li>
+                        <li>Ensure all connections are secure and properly seated.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Step 10 -->
+            <div class="step">
+                <h2>Step 10: Power On and Install OS</h2>
+                <p>Power on your PC and install your operating system. Make sure to install all necessary drivers and updates.</p>
+                <button class="btn" onclick="toggleGuide('guide10')">Read Guide</button>
+                <div id="guide10" style="display: none;">
+                    <h3>Guide: Powering On and Installing the Operating System</h3>
+                    <p>The final step is to power on your PC and install the operating system:</p>
+                    <ol>
+                        <li><strong>Power On</strong>: Connect the power cable to the PSU and turn on the power supply. Press the power button on the case.</li>
+                        <li><strong>BIOS Setup</strong>: Enter the BIOS to ensure all components are recognized and configure settings as needed.</li>
+                        <li><strong>Install OS</strong>: Insert the OS installation media (USB or DVD) and follow the on-screen instructions to install the operating system.</li>
+                        <li><strong>Install Drivers</strong>: Download and install the latest drivers for your components from the manufacturers' websites.</li>
+                    </ol>
+                    <p><strong>Tips:</strong></p>
+                    <ul>
+                        <li>Ensure all components are properly connected before powering on.</li>
+                        <li>Follow the on-screen instructions carefully during OS installation.</li>
+                        <li>Keep your drivers and operating system up to date for optimal performance.</li>
+                    </ul>
                 </div>
             </div>
         </div>
@@ -421,11 +546,11 @@
         // Mobile menu toggle
         const menuBtn = document.getElementById('menuBtn');
         const navMenu = document.getElementById('navMenu');
-        
+
         menuBtn.addEventListener('click', () => {
             navMenu.classList.toggle('show');
         });
-        
+
         // Close menu when clicking on a link
         const navLinks = document.querySelectorAll('nav a');
         navLinks.forEach(link => {
@@ -435,6 +560,16 @@
                 }
             });
         });
+
+        // Toggle guide visibility
+        function toggleGuide(guideId) {
+            const guide = document.getElementById(guideId);
+            if (guide.style.display === 'none') {
+                guide.style.display = 'block';
+            } else {
+                guide.style.display = 'none';
+            }
+        }
     </script>
 </body>
 </html>
