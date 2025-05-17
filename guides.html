@@ -306,7 +306,21 @@
                 <div class="guide-info">
                     <h3>How to Build a Gaming PC</h3>
                     <p>Step-by-step instructions to assemble your gaming rig, from choosing components to final assembly and setup.</p>
-                    <a href="guide-gaming-pc.html" class="btn">Read Guide</a>
+                   <button class="btn" id="showStepsBtn1">Read Guide</button>
+<div id="guideSteps1" style="display:none; margin-top:15px; text-align:left;">
+    <ol>
+        <li>Gather all necessary PC components and tools.</li>
+        <li>Prepare your workspace and ground yourself to prevent static discharge.</li>
+        <li>Install the CPU, cooler, and RAM onto the motherboard.</li>
+        <li>Mount the motherboard into the PC case.</li>
+        <li>Install the power supply unit (PSU).</li>
+        <li>Install storage drives (SSD/HDD).</li>
+        <li>Install the graphics card (GPU).</li>
+        <li>Connect all power and data cables.</li>
+        <li>Double-check all connections and cable management.</li>
+        <li>Power on the PC and install your operating system.</li>
+    </ol>
+</div>
                 </div>
             </div>
 
@@ -418,23 +432,30 @@
     </footer>
 
     <script>
-        // Mobile menu toggle
-        const menuBtn = document.getElementById('menuBtn');
-        const navMenu = document.getElementById('navMenu');
-        
-        menuBtn.addEventListener('click', () => {
-            navMenu.classList.toggle('show');
+    // Mobile menu toggle
+    const menuBtn = document.getElementById('menuBtn');
+    const navMenu = document.getElementById('navMenu');
+    
+    menuBtn.addEventListener('click', () => {
+        navMenu.classList.toggle('show');
+    });
+    
+    // Close menu when clicking on a link
+    const navLinks = document.querySelectorAll('nav a');
+    navLinks.forEach(link => {
+        link.addEventListener('click', () => {
+            if (window.innerWidth <= 768) {
+                navMenu.classList.remove('show');
+            }
         });
-        
-        // Close menu when clicking on a link
-        const navLinks = document.querySelectorAll('nav a');
-        navLinks.forEach(link => {
-            link.addEventListener('click', () => {
-                if (window.innerWidth <= 768) {
-                    navMenu.classList.remove('show');
-                }
-            });
-        });
-    </script>
+    });
+
+    // Show steps for Guide 1 when "Read Guide" is clicked
+    document.getElementById('showStepsBtn1').addEventListener('click', function() {
+        const steps = document.getElementById('guideSteps1');
+        steps.style.display = steps.style.display === 'none' ? 'block' : 'none';
+        this.textContent = steps.style.display === 'block' ? 'Hide Steps' : 'Read Guide';
+    });
+</script>
 </body>
 </html>
