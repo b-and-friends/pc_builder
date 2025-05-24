@@ -12,6 +12,27 @@
       color: #c9d1d9;
     }
 
+    .home-button-container {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+    }
+
+    .home-button {
+      background-color: #238636;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background-color 0.2s;
+    }
+
+    .home-button:hover {
+      background-color: #2ea043;
+    }
+
     h1 {
       text-align: center;
       padding: 30px 0;
@@ -82,20 +103,16 @@
     }
 
     .steps {
-  margin-top: 15px;
-  text-align: left;
-  background: #0d1117;
-  border: 1px solid #238636;
-  border-radius: 8px;
-  padding: 15px;
-  display: none;
-  /* Remove max-height and scrolling */
-  /* max-height: 300px; */
-  /* overflow-y: auto; */
-  color: #c9d1d9;
-  font-size: 0.9rem;
-}
-
+      margin-top: 15px;
+      text-align: left;
+      background: #0d1117;
+      border: 1px solid #238636;
+      border-radius: 8px;
+      padding: 15px;
+      display: none;
+      color: #c9d1d9;
+      font-size: 0.9rem;
+    }
 
     .steps ul {
       padding-left: 20px;
@@ -108,6 +125,10 @@
   </style>
 </head>
 <body>
+  <div class="home-button-container">
+    <button class="home-button" onclick="redirectToHome()">Home</button>
+  </div>
+
   <h1>PC Building Guides</h1>
   <div class="guides-container">
 
@@ -191,6 +212,10 @@
         }
       });
     });
+
+    function redirectToHome() {
+      window.location.href = 'index.html'; // Replace 'index.html' with your home page URL
+    }
   </script>
 </body>
 </html>
