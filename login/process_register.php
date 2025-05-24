@@ -71,12 +71,59 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         
         if ($stmt->execute()) {
             // Registration successful
-            echo "<p>Registration successful! Redirecting to sign-in page...</p>";
-            echo '<script>
+            echo '
+            <html>
+            <head>
+                <style>
+                    body {
+                        background: #f4f6f8;
+                        font-family: Arial, sans-serif;
+                    }
+                    .success-card {
+                        max-width: 400px;
+                        margin: 80px auto;
+                        background: #fff;
+                        border-radius: 10px;
+                        box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+                        padding: 32px 24px 24px 24px;
+                        text-align: center;
+                    }
+                    .success-icon {
+                        color: #4BB543;
+                        font-size: 48px;
+                        margin-bottom: 16px;
+                    }
+                    .spinner {
+                        margin: 18px auto 0 auto;
+                        border: 4px solid #f3f3f3;
+                        border-top: 4px solid #4BB543;
+                        border-radius: 50%;
+                        width: 36px;
+                        height: 36px;
+                        animation: spin 1s linear infinite;
+                    }
+                    @keyframes spin {
+                        0% { transform: rotate(0deg);}
+                        100% { transform: rotate(360deg);}
+                    }
+                </style>
+            </head>
+            <body>
+                <div class="success-card">
+                    <div class="success-icon">&#10004;</div>
+                    <h2>Registration Successful!</h2>
+                    <p>Your account has been created.<br>
+                    Redirecting to sign-in page...</p>
+                    <div class="spinner"></div>
+                </div>
+                <script>
                     setTimeout(function() {
                         window.location.href = "signin.html";
                     }, 3000); // Redirect after 3 seconds
-                  </script>';
+                </script>
+            </body>
+            </html>
+            ';
             exit();
         } else {
             $errors[] = "Something went wrong. Please try again later.";
