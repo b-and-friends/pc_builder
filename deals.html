@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deals - PC Builder</title>
+    <!-- Fonts and Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #005eff;
+            --secondary: #00bfff;
+            --dark: #0a0f1f;
+            --nav-dark: rgba(17, 28, 60, 0.9);
+            --menu-dark: #0d1b40;
+            --light: #ffffff;
+            --gray: #dcdcdc;
+            --dark-gray: #444;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Roboto', Arial, sans-serif;
+            background-color: var(--dark);
+            color: var(--light);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://images.unsplash.com/photo-1518770660439-4636190af475?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+        }
+
+        /* Header/Nav */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: var(--nav-dark);
+            padding: 15px 30px;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+        .navbar .logo-search {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            flex-grow: 1;
+        }
+        .navbar .logo {
+            font-size: 2.5rem;
+            font-weight: bold;
+            font-family: 'Orbitron', sans-serif;
+            border: 3px solid var(--secondary);
+            padding: 10px 20px;
+            border-radius: 10px;
+            background: linear-gradient(to bottom, rgb(212, 209, 209) 50%, var(--secondary) 50%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-decoration: none;
+            transition: transform 0.3s ease;
+        }
+        .navbar .auth-cart {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+        }
+        .navbar .cart {
+            color: var(--light);
+            text-decoration: none;
+            font-size: 1.2rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: color 0.3s ease;
+        }
+        .menu {
+            display: flex;
+            background-color: var(--menu-dark);
+            padding: 10px 30px;
+            gap: 15px;
+            overflow-x: auto;
+            scrollbar-width: none;
+        }
+        .menu::-webkit-scrollbar { display: none; }
+        .menu a {
+            color: var(--light);
+            text-decoration: none;
+            padding: 10px 20px;
+            display: flex;
+            align-items: center;
+            border: 2px solid var(--light);
+            border-radius: 5px;
+            gap: 10px;
+            white-space: nowrap;
+            transition: all 0.3s ease;
+        }
+        .menu a.active, .menu a:hover {
+            background-color: var(--primary);
+            border-color: var(--primary);
+        }
+
+        /* Deals Main */
+        .deals-main {
+            padding: 40px 5%;
+            flex-grow: 1;
+        }
+        .deals-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .deals-header h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.5rem;
+            color: var(--secondary);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .deals-header p {
+            font-size: 1.2rem;
+            color: var(--gray);
+            margin-top: 12px;
+        }
+
+        /* Deals Grid */
+        .deals-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+        .deal-card {
+            background-color: var(--nav-dark);
+            border-radius: 8px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(0, 191, 255, 0.2);
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+        .deal-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 94, 255, 0.4);
+            border-color: var(--secondary);
+        }
+        .deal-badge {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background-color: var(--primary);
+            color: white;
+            padding: 5px 14px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            z-index: 2;
+            letter-spacing: 1px;
+        }
+        .deal-img {
+            height: 180px;
+            background-color: #1a2a4a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            position: relative;
+        }
+        .deal-img img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            transition: transform 0.3s ease;
+        }
+        .deal-card:hover .deal-img img {
+            transform: scale(1.05);
+        }
+        .deal-info {
+            padding: 20px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .deal-info h2 {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            color: var(--light);
+        }
+        .deal-desc {
+            color: var(--gray);
+            font-size: 0.95rem;
+            margin-bottom: 12px;
+        }
+        .deal-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 15px;
+        }
+        .deal-price {
+            color: var(--secondary);
+            font-weight: bold;
+            font-size: 1.3rem;
+        }
+        .deal-old-price {
+            text-decoration: line-through;
+            color: var(--gray);
+            font-size: 1rem;
+            margin-left: 7px;
+            font-weight: normal;
+        }
+        .deal-btn {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+        }
+        .deal-btn:hover {
+            background-color: #0047cc;
+            color: var(--secondary);
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--menu-dark);
+            color: var(--light);
+            padding: 40px 5%;
+            text-align: center;
+            margin-top: 50px;
+            font-size: 25px;
+        }
+        .footer-content {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .social-links a {
+            color: var(--light);
+            margin: 0 10px;
+            font-size: 1.3rem;
+            transition: color 0.3s;
+        }
+        .social-links a:hover {
+            color: var(--secondary);
+        }
+        .copyright {
+            margin-top: 10px;
+            font-size: 1rem;
+            color: var(--gray);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .deals-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .deals-header h1 {
+                font-size: 2rem;
+            }
+            .deals-grid {
+                grid-template-columns: 1fr;
+            }
+            .navbar .logo {
+                font-size: 1.8rem;
+                padding: 8px 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <nav class="navbar">
+            <div class="logo-search">
+                <a href="/" class="logo">PC BUILDER</a>
+            </div>
+            <div class="auth-cart">
+                <a href="cart.html" class="cart"><i class="fas fa-shopping-cart"></i> Cart</a>
+            </div>
+        </nav>
+        <div class="menu">
+            <a href="index.html"><i class="fas fa-home"></i> Home</a>
+            <a href="components.html"><i class="fas fa-microchip"></i> Components</a>
+            <a href="deals.html" class="active"><i class="fas fa-tags"></i> Deals</a>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="deals-main">
+        <div class="deals-header">
+            <h1><i class="fas fa-tags"></i> Hot PC Deals</h1>
+            <p>Find the best deals on PC components and accessories.</p>
+        </div>
+        <div class="deals-grid">
+            <!-- Deal Card 1 -->
+            <div class="deal-card">
+                <div class="deal-img">
+                    <span class="deal-badge">HOT</span>
+                    <img src="https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&w=400&q=80" alt="Graphics Card">
+                </div>
+                <div class="deal-info">
+                    <h2>RTX 4060 Ti</h2>
+                    <div class="deal-desc">Supercharged 8GB GDDR6 Graphics Card</div>
+                    <div class="deal-meta">
+                        <div class="deal-price">$379<span class="deal-old-price">$449</span></div>
+                        <a href="#" class="deal-btn"><i class="fas fa-shopping-cart"></i> View Deal</a>
+                    </div>
+                </div>
+            </div>
+            <!-- Deal Card 2 -->
+            <div class="deal-card">
+                <div class="deal-img">
+                    <span class="deal-badge">LIMITED</span>
+                    <img src="https://images.unsplash.com/photo-1519125323398-675f0ddb6308?auto=format&fit=crop&w=400&q=80" alt="SSD">
+                </div>
+                <div class="deal-info">
+                    <h2>Samsung 970 Evo 1TB</h2>
+                    <div class="deal-desc">Fast NVMe M.2 SSD for blazing speed</div>
+                    <div class="deal-meta">
+                        <div class="deal-price">$59<span class="deal-old-price">$89</span></div>
+                        <a href="#" class="deal-btn"><i class="fas fa-shopping-cart"></i> View Deal</a>
+                    </div>
+                </div>
+            </div>
+            <!-- Deal Card 3 -->
+            <div class="deal-card">
+                <div class="deal-img">
+                    <span class="deal-badge">SALE</span>
+                    <img src="https://images.unsplash.com/photo-1519985176271-adb1088fa94c?auto=format&fit=crop&w=400&q=80" alt="Monitor">
+                </div>
+                <div class="deal-info">
+                    <h2>LG Ultragear 27"</h2>
+                    <div class="deal-desc">144Hz IPS Gaming Monitor</div>
+                    <div class="deal-meta">
+                        <div class="deal-price">$199<span class="deal-old-price">$299</span></div>
+                        <a href="#" class="deal-btn"><i class="fas fa-shopping-cart"></i> View Deal</a>
+                    </div>
+                </div>
+            </div>
+            <!-- Add more deal-cards as needed -->
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="social-links">
+                <a href="#"><i class="fab fa-facebook-f"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-youtube"></i></a>
+            </div>
+            <div class="copyright">
+                &copy; 2025 PC Builder. All rights reserved.
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

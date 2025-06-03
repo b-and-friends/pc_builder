@@ -1,0 +1,1509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PC Builder Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1e40af;
+            --primary-light: #93c5fd;
+            --secondary: #10b981;
+            --secondary-dark: #059669;
+            --danger: #ef4444;
+            --danger-dark: #dc2626;
+            --warning: #f59e0b;
+            --warning-dark: #d97706;
+            --dark: #1e293b;
+            --darker: #0f172a;
+            --light: #f8fafc;
+            --gray: #94a3b8;
+            --gray-light: #e2e8f0;
+            --light-blue: #dbeafe;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --border-radius: 0.5rem;
+            --border-radius-sm: 0.375rem;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f1f5f9;
+            color: #334155;
+            line-height: 1.6;
+        }
+
+        /* Typography */
+        h1, h2, h3, h4 {
+            font-weight: 700;
+            color: var(--dark);
+        }
+
+        /* Navbar */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            background-color: var(--dark);
+            color: white;
+            box-shadow: var(--shadow-md);
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            font-family: 'Orbitron', sans-serif;
+            background: linear-gradient(90deg, #00bfff, #3b82f6);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            letter-spacing: 1px;
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .nav-icon {
+            font-size: 1.5rem;
+            color: white;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .nav-icon:hover {
+            color: #00bfff;
+            transform: translateY(-2px);
+        }
+
+        .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background-color: var(--danger);
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: bold;
+        }
+
+        .menu {
+            display: flex;
+            gap: 1.2rem;
+            align-items: center;
+            margin-left: 2rem;
+        }
+
+        .menu-link {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 0.75rem;
+            border-radius: 0.375rem;
+            transition: background 0.2s, color 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .menu-link.active, .menu-link:hover {
+            background: var(--primary-light, #93c5fd);
+            color: var(--primary-dark, #1e40af);
+            text-decoration: none;
+        }
+
+        /* Main Content */
+        .container {
+            max-width: 1400px;
+            margin: 2rem auto;
+            padding: 0 1.5rem;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--dark);
+        }
+
+        .breadcrumb {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            color: var(--gray);
+        }
+
+        .breadcrumb a {
+            color: var(--primary);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .breadcrumb a:hover {
+            color: var(--primary-dark);
+            text-decoration: underline;
+        }
+
+        /* Compatibility Banner */
+        .compatibility-banner {
+            background: linear-gradient(135deg, var(--secondary), var(--secondary-dark));
+            color: white;
+            padding: 1.25rem;
+            border-radius: var(--border-radius);
+            margin: 2rem 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: var(--shadow);
+        }
+
+        .compatibility-banner.warning {
+            background: linear-gradient(135deg, var(--warning), var(--warning-dark));
+        }
+
+        .compatibility-banner.error {
+            background: linear-gradient(135deg, var(--danger), var(--danger-dark));
+        }
+
+        .compatibility-status {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .compatibility-icon {
+            font-size: 1.5rem;
+        }
+
+        .wattage-display {
+            background-color: rgba(255, 255, 255, 0.2);
+            padding: 0.5rem 1rem;
+            border-radius: 2rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* Components Table */
+        .components-table {
+            width: 100%;
+            background-color: white;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            margin-bottom: 2rem;
+            border-collapse: collapse;
+        }
+
+        .components-table th,
+        .components-table td {
+            /* Add min-width and consistent height for all cells */
+            min-width: 140px;
+            height: 90px;
+            vertical-align: middle;
+            /* Add padding for more space */
+            padding: 1.25rem 1rem;
+        }
+
+        .components-table th {
+            background-color: var(--dark);
+            color: white;
+            padding: 1rem;
+            text-align: left;
+            font-weight: 500;
+            text-transform: uppercase;
+            font-size: 0.875rem;
+            letter-spacing: 0.5px;
+            white-space: nowrap;
+        }
+
+        .components-table td {
+            padding: 1.25rem 1rem;
+            border-bottom: 1px solid var(--gray-light);
+            vertical-align: middle;
+            white-space: normal;
+            /* Prevents text from being squished */
+            word-break: break-word;
+            text-align: center;
+        }
+
+        .components-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .components-table tr:hover td {
+            background-color: var(--light);
+        }
+
+        .component-type {
+            font-weight: 500;
+            color: var(--dark);
+            min-width: 120px;
+        }
+
+        .component-image {
+            width: 80px;
+            height: 80px;
+            object-fit: contain;
+            border-radius: var(--border-radius-sm);
+            border: 1px solid var(--gray-light);
+            background-color: white;
+        }
+
+        .component-name {
+            font-weight: 500;
+            margin-bottom: 0.25rem;
+        }
+
+        .component-specs {
+            color: var(--gray);
+            font-size: 0.875rem;
+            line-height: 1.5;
+        }
+
+        .component-price {
+            font-weight: 700;
+            color: var(--dark);
+            white-space: nowrap;
+        }
+
+        .action-button {
+            padding: 0.5rem 1rem;
+            border-radius: var(--border-radius-sm);
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.875rem;
+        }
+
+        .add-button {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            font-size: 1rem;
+            padding: 0.75rem 1.5rem;
+            min-width: 140px;
+            box-shadow: 0 2px 8px 0 rgba(37,99,235,0.08);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            transition: background 0.2s, box-shadow 0.2s, transform 0.15s;
+            margin: 0 auto;
+            outline: none;
+        }
+
+        .add-button i {
+            font-size: 1.1em;
+        }
+
+        .add-button:hover, .add-button:focus {
+            background-color: var(--primary-dark);
+            box-shadow: 0 4px 16px 0 rgba(37,99,235,0.15);
+            transform: translateY(-2px) scale(1.04);
+        }
+
+        .remove-button {
+            background-color: var(--danger);
+            color: white;
+        }
+
+        .remove-button:hover {
+            background-color: var(--danger-dark);
+            transform: translateY(-1px);
+            box-shadow: var(--shadow);
+        }
+
+        .view-button {
+            background-color: transparent;
+            color: var(--primary);
+            border: 1px solid var(--primary);
+        }
+
+        .view-button:hover {
+            background-color: rgba(37, 99, 235, 0.1);
+        }
+
+        .save-button {
+            background-color: var(--secondary);
+            color: white;
+        }
+
+        .save-button:hover {
+            background-color: var(--secondary-dark);
+            transform: translateY(-1px);
+            box-shadow: var(--shadow);
+        }
+
+        /* Total and Checkout */
+        .checkout-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: white;
+            padding: 1.5rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .total-price {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .total-amount {
+            color: var(--primary);
+        }
+
+        .checkout-button {
+            background-color: var(--primary);
+            color: white;
+            padding: 0.75rem 2rem;
+            border-radius: var(--border-radius-sm);
+            font-weight: 500;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .checkout-button:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .checkout-button:disabled {
+            background-color: var(--gray);
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        /* Modal */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+            backdrop-filter: blur(4px);
+        }
+
+        .modal-content {
+            background: white;
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            width: 90%;
+            max-width: 800px;
+            box-shadow: var(--shadow-lg);
+            max-height: 80vh;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--dark);
+        }
+
+        .close-button {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--gray);
+            transition: var(--transition);
+            padding: 0.5rem;
+            line-height: 1;
+        }
+
+        .close-button:hover {
+            color: var(--danger);
+            transform: rotate(90deg);
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .product-card {
+            border: 1px solid var(--gray-light);
+            border-radius: var(--border-radius-sm);
+            padding: 1rem;
+            transition: var(--transition);
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .product-card:hover {
+            border-color: var(--primary);
+            box-shadow: var(--shadow);
+            transform: translateY(-2px);
+        }
+
+        .product-card.selected {
+            border: 2px solid var(--primary);
+            background-color: var(--light-blue);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 120px;
+            object-fit: contain;
+            margin-bottom: 1rem;
+            background-color: var(--light);
+            border-radius: var(--border-radius-sm);
+            align-self: center;
+        }
+
+        .product-name {
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .product-price {
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .product-specs {
+            font-size: 0.875rem;
+            color: var(--gray);
+            margin-bottom: 0.5rem;
+            flex-grow: 1;
+        }
+
+        .product-rating {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+            color: var(--warning-dark);
+            font-size: 0.875rem;
+            margin-top: 0.5rem;
+        }
+
+        .modal-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 2rem;
+            color: var(--gray);
+        }
+
+        .empty-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: #cbd5e1;
+        }
+
+        /* Dashboard Layout */
+        .dashboard-layout {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .sidebar {
+            width: 250px;
+            background: #fff;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            padding: 2rem 1rem 1rem 1rem;
+            min-height: 600px;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            flex-shrink: 0;
+        }
+
+        .sidebar .sidebar-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--primary-dark);
+            margin-bottom: 1rem;
+            letter-spacing: 1px;
+            padding: 0 0.5rem;
+        }
+
+        .sidebar-nav {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .sidebar-link {
+            color: var(--dark);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.75rem 1rem;
+            border-radius: var(--border-radius-sm);
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 0.9375rem;
+        }
+
+        .sidebar-link.active, .sidebar-link:hover {
+            background: var(--light-blue);
+            color: var(--primary);
+        }
+
+        .sidebar-link i {
+            width: 20px;
+            text-align: center;
+        }
+
+        /* User Greeting */
+        .user-greeting {
+            background: linear-gradient(90deg, var(--primary) 0%, #06b6d4 100%);
+            color: #fff;
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow);
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .user-avatar {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            background: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            color: var(--primary);
+            box-shadow: var(--shadow-sm);
+            flex-shrink: 0;
+        }
+
+        .user-greeting-content h2 {
+            margin-bottom: 0.5rem;
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .user-greeting-content p {
+            font-size: 1rem;
+            color: var(--primary-light);
+            opacity: 0.9;
+        }
+
+        /* Build Actions */
+        .build-actions {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        /* Compatibility Issues */
+        .compatibility-issues {
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px dashed rgba(255, 255, 255, 0.3);
+        }
+
+        .compatibility-issues h4 {
+            font-size: 0.875rem;
+            margin-bottom: 0.5rem;
+            color: white;
+        }
+
+        .issue-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.5rem;
+            font-size: 0.875rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .issue-item i {
+            color: var(--warning-dark);
+            margin-top: 2px;
+        }
+
+        /* Loading State */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .dashboard-layout {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                width: 100%;
+                min-height: unset;
+                flex-direction: row;
+                flex-wrap: wrap;
+                gap: 0.5rem;
+                padding: 1rem;
+            }
+
+            .sidebar-nav {
+                flex-direction: row;
+                flex-wrap: wrap;
+            }
+
+            .sidebar-link {
+                padding: 0.5rem 0.75rem;
+            }
+
+            .sidebar .sidebar-title {
+                width: 100%;
+                margin-bottom: 0.5rem;
+            }
+
+            .menu {
+                margin-left: 0;
+                flex-wrap: wrap;
+                gap: 0.5rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                padding: 1rem;
+                gap: 1rem;
+            }
+
+            .search-container {
+                width: 100%;
+                margin: 0;
+            }
+
+            .nav-actions {
+                width: 100%;
+                justify-content: space-between;
+            }
+
+            .components-table {
+                display: block;
+                overflow-x: auto;
+            }
+
+            .product-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .checkout-section {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .user-greeting {
+                flex-direction: column;
+                text-align: center;
+                padding: 1.5rem;
+            }
+
+            .user-avatar {
+                margin-bottom: 1rem;
+            }
+
+            .compatibility-banner {
+                flex-direction: column;
+                gap: 1rem;
+                align-items: flex-start;
+            }
+
+            .menu {
+                flex-direction: column;
+                gap: 0.5rem;
+                width: 100%;
+                margin: 0.5rem 0;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .modal-content {
+                padding: 1.5rem 1rem;
+            }
+
+            .modal-actions {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .modal-actions button {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <div class="navbar">
+        <div class="logo">PC BUILDER</div>
+        <nav class="menu" role="navigation">
+            <!-- Removed system_builder.html link -->
+            <!-- <a href="system_builder.html" class="menu-link"><i class="fas fa-tools" aria-hidden="true"></i> System Builder</a> -->
+            <a href="pre_build_pc.html" class="menu-link"><i class="fas fa-desktop" aria-hidden="true"></i> Pre-Build PC</a>
+            <a href="components.html" class="menu-link"><i class="fas fa-microchip" aria-hidden="true"></i> Components</a>
+            <a href="guides.html" class="menu-link"><i class="fas fa-book" aria-hidden="true"></i> Guides</a>
+            <a href="deals.html" class="menu-link"><i class="fas fa-tag" aria-hidden="true"></i> Deals</a>
+        </nav>
+        <div class="nav-actions">
+            <a href="cart.html" class="nav-icon" title="Cart">
+                <i class="fas fa-shopping-cart"></i>
+                <span class="cart-count">0</span>
+            </a>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="dashboard-layout">
+            <!-- Sidebar -->
+            <aside class="sidebar">
+                <div class="sidebar-title">Dashboard</div>
+                <nav class="sidebar-nav">
+                    <a href="dashboard.html" class="sidebar-link active"><i class="fas fa-home"></i> Home</a>
+                    <a href="my_builds.html" class="sidebar-link"><i class="fas fa-desktop"></i> My Builds</a>
+                    <!--<a href="orders.html" class="sidebar-link"><i class="fas fa-shopping-cart"></i> Purchase History</a>-->
+                    <a href="profile.html" class="sidebar-link"><i class="fas fa-user"></i> Profile</a>
+                    <a href="login/signin.html" class="sidebar-link"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                </nav>
+            </aside>
+            <main style="flex:1;">
+                <!-- User Greeting -->
+                <div class="user-greeting">
+                    <div class="user-avatar">
+                        <i class="fas fa-user-circle"></i>
+                    </div>
+                    <div class="user-greeting-content">
+                        <h2>
+                            Welcome back, Dearest User!
+                        </h2>
+                        <p>Start building your dream PC or manage your previous builds and orders.</p>
+                    </div>
+                </div>
+
+                <!-- Main Content -->
+                <div class="header">
+                    <h1>System Builder</h1>
+                    <div class="breadcrumb">
+                        <a href="#">Home</a>
+                        <span>/</span>
+                        <a href="#">Builds</a>
+                        <span>/</span>
+                        <span>New Build</span>
+                    </div>
+                </div>
+
+                <!-- Build Actions -->
+                <div class="build-actions">
+                    <button class="action-button save-button">
+                        <i class="fas fa-save"></i> Save Build
+                    </button>
+                    <button class="action-button view-button">
+                        <i class="fas fa-share-alt"></i> Share Build
+                    </button>
+                </div>
+
+                <!-- Compatibility Banner -->
+                <div class="compatibility-banner" id="compatibility-banner">
+                    <div class="compatibility-status">
+                        <i class="fas fa-check-circle compatibility-icon"></i>
+                        <div>
+                            <strong>Compatibility:</strong> <span id="compatibility-status-text">No issues found</span>
+                        </div>
+                    </div>
+                    <div class="wattage-display">
+                        <i class="fas fa-bolt"></i>
+                        <span>Estimated Wattage: <strong id="wattage-display-text">450W</strong></span>
+                    </div>
+                </div>
+
+                <!-- Components Table -->
+                <table class="components-table">
+                    <thead>
+                        <tr>
+                            <th>Component</th>
+                            <th>Selection</th>
+                            <th>Details</th>
+                            <th>Price</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="component-type">CPU</td>
+                            <td>
+                                <button class="add-button" type="button" onclick="showModal('CPU')">
+                                    <i class="fas fa-plus"></i>
+                                    <span>Add CPU</span>
+                                </button>
+                            </td>
+                            <td></td>
+                            <td></td>
+                            <td>
+                                <button class="remove-button" disabled>
+                                    <i class="fas fa-trash"></i> Remove
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="component-type">CPU Cooler</td>
+                            <td>
+                                <button class="add-button" type="button" onclick="showModal('CPU Cooler')">
+                                    <i class="fas fa-plus"></i>
+                                    <span>Add Cooler</span>
+                                </button>
+                            </td>
+                            <td></td>
+                            <td></td>
+                            <td>
+                                <button class="remove-button" disabled>
+                                    <i class="fas fa-trash"></i> Remove
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="component-type">Motherboard</td>
+                            <td>
+                                <button class="add-button" type="button" onclick="showModal('Motherboard')">
+                                    <i class="fas fa-plus"></i>
+                                    <span>Add Motherboard</span>
+                                </button>
+                            </td>
+                            <td></td>
+                            <td></td>
+                            <td>
+                                <button class="remove-button" disabled>
+                                    <i class="fas fa-trash"></i> Remove
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="component-type">GPU</td>
+                            <td>
+                                <button class="add-button" type="button" onclick="showModal('GPU')">
+                                    <i class="fas fa-plus"></i>
+                                    <span>Add GPU</span>
+                                </button>
+                            </td>
+                            <td></td>
+                            <td></td>
+                            <td>
+                                <button class="remove-button" disabled>
+                                    <i class="fas fa-trash"></i> Remove
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="component-type">RAM</td>
+                            <td>
+                                <button class="add-button" type="button" onclick="showModal('RAM')">
+                                    <i class="fas fa-plus"></i>
+                                    <span>Add RAM</span>
+                                </button>
+                            </td>
+                            <td></td>
+                            <td></td>
+                            <td>
+                                <button class="remove-button" disabled>
+                                    <i class="fas fa-trash"></i> Remove
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="component-type">Storage</td>
+                            <td>
+                                <button class="add-button" type="button" onclick="showModal('Storage')">
+                                    <i class="fas fa-plus"></i>
+                                    <span>Add Storage</span>
+                                </button>
+                            </td>
+                            <td></td>
+                            <td></td>
+                            <td>
+                                <button class="remove-button" disabled>
+                                    <i class="fas fa-trash"></i> Remove
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="component-type">Power Supply</td>
+                            <td>
+                                <button class="add-button" type="button" onclick="showModal('Power Supply')">
+                                    <i class="fas fa-plus"></i>
+                                    <span>Add PSU</span>
+                                </button>
+                            </td>
+                            <td></td>
+                            <td></td>
+                            <td>
+                                <button class="remove-button" disabled>
+                                    <i class="fas fa-trash"></i> Remove
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="component-type">Case</td>
+                            <td>
+                                <button class="add-button" type="button" onclick="showModal('Case')">
+                                    <i class="fas fa-plus"></i>
+                                    <span>Add Case</span>
+                                </button>
+                            </td>
+                            <td></td>
+                            <td></td>
+                            <td>
+                                <button class="remove-button" disabled>
+                                    <i class="fas fa-trash"></i> Remove
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <!-- Total and Checkout -->
+                <div class="checkout-section">
+                    <div class="total-price">
+                        Total: <span class="total-amount">$0.00</span>
+                    </div>
+                    <button class="checkout-button" id="proceed-checkout-btn" disabled>
+                        <i class="fas fa-shopping-cart"></i> Proceed to Checkout
+                    </button>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Product Selection Modal -->
+    <div id="product-modal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Select a <span id="modal-component-type">CPU</span></h2>
+                <button class="close-button" onclick="closeModal()">&times;</button>
+            </div>
+            <div class="product-grid" id="product-grid">
+                <!-- Product cards will be dynamically inserted here -->
+                <!-- <div class="product-card">Test Card</div> -->
+            </div>
+            <div class="modal-actions">
+                <button class="action-button view-button" onclick="viewProductDetails()">
+                    <i class="fas fa-info-circle"></i> View Details
+                </button>
+                <button class="action-button add-button" onclick="addSelectedProduct()" disabled id="add-product-btn">
+                    <i class="fas fa-plus"></i> Add to Build
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Modal -->
+    <div id="loading-modal" class="modal" style="display: none;">
+        <div class="modal-content" style="text-align: center; padding: 3rem;">
+            <div class="loading" style="margin: 0 auto 1.5rem;"></div>
+            <h2 class="modal-title">Loading Components...</h2>
+            <p>Please wait while we fetch the latest components</p>
+        </div>
+    </div>
+
+    <!-- Checkout Modal -->
+    <div id="checkout-modal" class="modal" style="display:none;">
+        <div class="modal-content" style="max-width:600px;text-align:left;">
+            <div class="modal-header">
+                <h2 class="modal-title">Checkout</h2>
+                <button class="close-button" onclick="closeCheckoutModal()">&times;</button>
+            </div>
+            <div id="checkout-products-list" style="margin-bottom:2rem;"></div>
+            <div class="checkout-message" style="margin-bottom:2rem;">
+                This is where the finalization of the checkout will happen.<br>
+                You can implement payment and order confirmation here.
+            </div>
+            <button class="back-btn" onclick="closeCheckoutModal()" style="margin-right:1rem;">Back to Dashboard</button>
+            <button class="add-button" onclick="finalizeCheckout()">Confirm </button>
+        </div>
+    </div>
+
+    <script>
+        // Current build state
+        const buildState = {
+            components: {},
+            compatibility: {
+                status: 'success',
+                issues: []
+            },
+            totalPrice: 0,
+            wattage: 0
+        };
+
+        // Current selected component type and product
+        let currentComponentType = '';
+        let selectedProduct = null;
+        
+        // Helper to render stars (add this if missing)
+        function renderStars(rating) {
+            let html = '';
+            for (let i = 1; i <= 5; i++) {
+                if (rating >= i) html += '<i class="fas fa-star"></i>';
+                else if (rating >= i - 0.5) html += '<i class="fas fa-star-half-alt"></i>';
+                else html += '<i class="far fa-star"></i>';
+            }
+            return html;
+        }
+
+        // Show modal for specific component type
+        function showModal(componentType) {
+            currentComponentType = componentType;
+            document.getElementById('modal-component-type').textContent = componentType;
+            document.getElementById('product-modal').style.display = 'flex';
+
+            // Show loading state
+            document.getElementById('loading-modal').style.display = 'flex';
+
+            // Fetch products from backend
+            fetch('get_products.php?component_type=' + encodeURIComponent(componentType))
+                .then(response => response.json())
+                .then(products => {
+                    // Remove alert and debug logs for production
+                    renderProductGridFromAPI(products);
+                    document.getElementById('loading-modal').style.display = 'none';
+                })
+                .catch((err) => {
+                    renderProductGridFromAPI([]);
+                    document.getElementById('loading-modal').style.display = 'none';
+                });
+        }
+
+        function renderProductGridFromAPI(products) {
+            // Convert object to array if necessary
+            if (!Array.isArray(products) && typeof products === 'object' && products !== null) {
+                products = Object.values(products);
+            }
+
+            const grid = document.getElementById('product-grid');
+            grid.innerHTML = '';
+            if (!Array.isArray(products) || products.length === 0) {
+                grid.innerHTML = '<div class="empty-state"><div class="empty-icon"><i class="fas fa-box-open"></i></div>No products found.</div>';
+                return;
+            }
+            products.forEach(product => {
+                const card = document.createElement('div');
+                card.className = 'product-card';
+                card.onclick = function() { selectProduct(card); };
+                card.innerHTML = `
+                    <img src="${product.image}" alt="${product.name}" class="product-image">
+                    <h3 class="product-name">${product.name}</h3>
+                    <div class="product-price">$${parseFloat(product.price).toFixed(2)}</div>
+                    <div class="product-specs">${product.specs}</div>
+                    <div class="product-rating">
+                        ${renderStars(product.rating)}
+                        <span>(${product.reviews})</span>
+                    </div>
+                `;
+                card.dataset.product = JSON.stringify(product);
+                grid.appendChild(card);
+            });
+            resetProductSelection();
+        }
+
+        // Close modal
+        function closeModal() {
+            document.getElementById('product-modal').style.display = 'none';
+            selectedProduct = null;
+            resetProductSelection();
+        }
+        
+        // Select a product card
+        function selectProduct(card) {
+            // Remove selected class from all cards
+            document.querySelectorAll('.product-card').forEach(c => {
+                c.classList.remove('selected');
+            });
+            
+            // Add selected class to clicked card
+            card.classList.add('selected');
+            
+            // Enable add button
+            document.getElementById('add-product-btn').disabled = false;
+
+            // Store selected product details
+            selectedProduct = JSON.parse(card.dataset.product);
+        }
+
+        // Reset product selection
+        function resetProductSelection() {
+            document.querySelectorAll('.product-card').forEach(c => {
+                c.classList.remove('selected');
+            });
+            document.getElementById('add-product-btn').disabled = true;
+        }
+
+        // Add selected product to build
+        function addSelectedProduct() {
+            if (!selectedProduct) return;
+
+            // Find the row for the current component type
+            const rows = document.querySelectorAll('.components-table tbody tr');
+            let targetRow = null;
+
+            for (const row of rows) {
+                if (row.querySelector('.component-type').textContent === currentComponentType) {
+                    targetRow = row;
+                    break;
+                }
+            }
+
+            if (targetRow) {
+                const cells = targetRow.querySelectorAll('td');
+
+                // Update selection cell with image and name
+                cells[1].innerHTML = `
+                    <img src="${selectedProduct.image}" alt="${selectedProduct.name}" class="component-image">
+                `;
+
+                // Update details cell
+                cells[2].innerHTML = `
+                    <div class="component-name">${selectedProduct.name}</div>
+                    <div class="component-specs">${selectedProduct.specs}</div>
+                `;
+
+                // Update price cell
+                cells[3].innerHTML = `
+                    <div class="component-price">${selectedProduct.price}</div>
+                `;
+
+                // Update actions cell
+                cells[4].innerHTML = `
+                    <button class="view-button" onclick="viewProduct('${selectedProduct.name}')">
+                        <i class="fas fa-external-link-alt"></i> View
+                    </button>
+                    <button class="remove-button" onclick="removeComponent('${currentComponentType}')">
+                        <i class="fas fa-trash"></i> Remove
+                    </button>
+                `;
+
+                // Update total
+                updateTotal();
+
+                // Update cart count
+                updateCartCount();
+
+                // Enable checkout button if at least one component is selected
+                const checkoutBtn = document.querySelector('.checkout-button');
+                const hasComponents = Array.from(rows).some(row => {
+                    return row.querySelector('.component-image') !== null;
+                });
+                checkoutBtn.disabled = !hasComponents;
+            }
+
+            closeModal();
+        }
+
+        // Remove component from build
+        function removeComponent(componentType) {
+            const rows = document.querySelectorAll('.components-table tbody tr');
+
+            for (const row of rows) {
+                if (row.querySelector('.component-type').textContent === componentType) {
+                    const cells = row.querySelectorAll('td');
+
+                    // Reset selection cell
+                    cells[1].innerHTML = `
+                        <button class="add-button" onclick="showModal('${componentType}')">
+                            <i class="fas fa-plus"></i> Add ${componentType}
+                        </button>
+                    `;
+
+                    // Reset other cells
+                    cells[2].innerHTML = '';
+                    cells[3].innerHTML = '';
+                    cells[4].innerHTML = `
+                        <button class="remove-button" disabled>
+                            <i class="fas fa-trash"></i> Remove
+                        </button>
+                    `;
+
+                    break;
+                }
+            }
+
+            // Update total
+            updateTotal();
+
+            // Update cart count
+            updateCartCount();
+
+            // Disable checkout button if no components are selected
+            const hasComponents = Array.from(rows).some(row => {
+                return row.querySelector('.component-image') !== null;
+            });
+
+            document.querySelector('.checkout-button').disabled = !hasComponents;
+        }
+
+        // Update total price
+        function updateTotal() {
+            const prices = document.querySelectorAll('.component-price');
+            let total = 0;
+
+            prices.forEach(priceEl => {
+                if (priceEl.textContent) {
+                    const price = parseFloat(priceEl.textContent.replace('$', '').replace(',', ''));
+                    total += price;
+                }
+            });
+
+            document.querySelector('.total-amount').textContent = `$${total.toFixed(2)}`;
+        }
+
+        // Update cart count
+        function updateCartCount() {
+            const components = document.querySelectorAll('.component-image');
+            document.querySelector('.cart-count').textContent = components.length;
+        }
+
+        // View product details (placeholder)
+        function viewProduct(productName) {
+            alert(`Viewing details for: ${productName}`);
+        }
+
+        // View product details from modal (placeholder)
+        function viewProductDetails() {
+            if (selectedProduct) {
+                alert(`Viewing details for: ${selectedProduct.name}`);
+            } else {
+                alert('Please select a product first');
+            }
+        }
+
+        // Get current build components (with details)
+        function getCurrentBuildComponents() {
+            // Collect selected components from the table
+            const rows = document.querySelectorAll('.components-table tbody tr');
+            const components = [];
+            rows.forEach(row => {
+                const type = row.querySelector('.component-type').textContent;
+                const nameEl = row.querySelector('.component-name');
+                const priceEl = row.querySelector('.component-price');
+                const imgEl = row.querySelector('.component-image');
+                const specsEl = row.querySelector('.component-specs');
+                if (nameEl && priceEl && imgEl) {
+                    components.push({
+                        type: type,
+                        name: nameEl.textContent,
+                        price: priceEl.textContent.replace('$', '').replace(',', ''),
+                        image: imgEl.src,
+                        specs: specsEl ? specsEl.textContent : ''
+                    });
+                }
+            });
+            return components;
+        }
+
+        // Proceed to Checkout: collect selected products, save to localStorage, and redirect
+        function proceedToCheckout() {
+            const selectedProducts = getCurrentBuildComponents();
+            if (selectedProducts.length === 0) {
+                alert('Please select at least one component before proceeding to checkout.');
+                return;
+            }
+            renderCheckoutModal(selectedProducts);
+            document.getElementById('checkout-modal').style.display = 'flex';
+        }
+
+        function renderCheckoutModal(products) {
+            const productsList = document.getElementById('checkout-products-list');
+            if (products.length > 0) {
+                let html = '<h3 style="font-size:1.1rem;color:#2563eb;margin-bottom:1rem;">Selected Products</h3><ul style="list-style:none;padding:0;">';
+                products.forEach(p => {
+                    const type = (typeof p.type === 'string' && p.type.trim()) ? p.type : 'Component';
+                    const name = (typeof p.name === 'string' && p.name.trim()) ? p.name : 'Unnamed';
+                    let price = '';
+                    if (p.price !== undefined && p.price !== null && p.price !== '') {
+                        let priceStr = typeof p.price === 'string' ? p.price.replace('$', '').replace(',', '') : p.price;
+                        const priceNum = Number(priceStr);
+                        price = isNaN(priceNum) ? '' : `$${priceNum.toFixed(2)}`;
+                    }
+                    const image = p.image ? p.image : '';
+                    html += `<li style="margin-bottom:0.5rem;display:flex;align-items:center;gap:1rem;">
+                        ${image ? `<img src="${image}" alt="${name}" style="width:48px;height:48px;object-fit:contain;border-radius:6px;border:1px solid #e2e8f0;background:#fff;">` : ''}
+                        <span><strong>${type}:</strong> ${name}</span>
+                        ${price ? `<span style="color:#2563eb;font-weight:500;">${price}</span>` : ''}
+                    </li>`;
+                });
+                html += '</ul>';
+                productsList.innerHTML = html;
+            } else {
+                productsList.innerHTML = '<em>No products selected.</em>';
+            }
+        }
+
+        function closeCheckoutModal() {
+            document.getElementById('checkout-modal').style.display = 'none';
+        }
+
+        function finalizeCheckout() {
+            // Collect selected products
+            const selectedProducts = getCurrentBuildComponents();
+            if (selectedProducts.length === 0) {
+                alert('No products to checkout.');
+                return;
+            }
+
+            // Example: Replace with actual user ID from session/auth
+            const user_id = 1;
+
+            // Prepare order data
+            const orderData = {
+                user_id: user_id,
+                products: selectedProducts
+            };
+
+            fetch('orders.php', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(orderData)
+            })
+            .then(res => {
+                // If the response is not ok, try to read error text for debugging
+                if (!res.ok) {
+                    return res.text().then(text => {
+                        console.error('Server error:', text);
+                        throw new Error('Network response was not ok');
+                    });
+                }
+                return res.json();
+            })
+            .then(data => {
+                if (data && data.success) {
+                    alert('Order placed successfully!');
+                    closeCheckoutModal();
+                    // Optionally clear build or update UI here
+                } else {
+                    alert('Error placing order: ' + (data && data.message ? data.message : 'Unknown error'));
+                }
+            })
+            .catch((err) => {
+                alert('Network error while placing order.');
+                console.error(err);
+            });
+        }
+
+        // Initialize
+        document.querySelector('.checkout-button').addEventListener('click', proceedToCheckout);
+
+        // Add event listener for Save Build button
+        document.querySelector('.save-button').addEventListener('click', function() {
+            // Replace with actual user ID from session/auth
+            const user_id = 1;
+            const components = getCurrentBuildComponents();
+            if (Object.keys(components).length === 0) {
+                alert('Please add at least one component to your build before saving.');
+                return;
+            }
+            const name = prompt('Enter a name for your build:');
+            if (!name) return;
+
+            // Optionally, you can add more build info here
+
+            fetch('save_build.php', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({user_id, name, components})
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Build saved successfully!');
+                    // Optionally redirect or update UI
+                } else {
+                    alert('Error saving build: ' + data.message);
+                }
+            })
+            .catch(() => {
+                alert('Network error while saving build.');
+            });
+        });
+
+    </script>
+</body>
+</html>

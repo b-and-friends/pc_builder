@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cart - PC Builder</title>
+    <!-- Google Fonts for better typography -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Inter', Arial, sans-serif;
+            margin: 0;
+            background: linear-gradient(120deg, #e0e7ff 0%, #f5f7fa 100%);
+            min-height: 100vh;
+        }
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #313869;
+            padding: 20px 30px;
+            color: white;
+            box-shadow: 0 4px 12px rgba(49, 56, 105, 0.1);
+        }
+        .logo {
+            font-size: 2rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            font-family: 'Orbitron', sans-serif;
+        }
+        .navbar a {
+            color: #fff;
+            background: #5761d7;
+            padding: 10px 20px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: background 0.2s;
+        }
+        .navbar a:hover {
+            background: #4250b6;
+        }
+
+        .cart-container {
+            width: 95%;
+            max-width: 900px;
+            margin: 40px auto 30px;
+            background: rgba(255,255,255,0.97);
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(49, 56, 105, 0.12);
+            padding: 36px 30px 30px;
+            position: relative;
+            overflow: hidden;
+        }
+        h2 {
+            font-size: 2.1rem;
+            text-align: center;
+            font-weight: 700;
+            margin-bottom: 25px;
+            color: #2d3362;
+        }
+        table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin-bottom: 16px;
+        }
+        th, td {
+            padding: 18px 12px;
+            text-align: center;
+        }
+        th {
+            background: #4a55a2;
+            color: white;
+            font-weight: 700;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+        }
+        tr:not(:last-child) td {
+            border-bottom: 1px solid #edeef7;
+        }
+        td {
+            color: #313869;
+            background: #f7f9fc;
+        }
+        .cart-container tr td:last-child {
+            background: none;
+        }
+        .total {
+            text-align: right;
+            font-size: 1.2rem;
+            color: #283159;
+            font-weight: 700;
+            margin-top: 15px;
+            margin-bottom: 20px;
+        }
+        .checkout-button {
+            display: block;
+            width: 220px;
+            margin: 24px auto 0;
+            padding: 14px;
+            background: linear-gradient(90deg, #5761d7 0%, #2ecc71 100%);
+            color: #fff;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            box-shadow: 0 4px 16px rgba(87,97,215,0.09);
+            border: none;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.1s;
+        }
+        .checkout-button:hover {
+            background: linear-gradient(90deg, #4250b6 0%, #27ae60 100%);
+            transform: translateY(-2px) scale(1.03);
+        }
+        .empty-cart {
+            text-align: center;
+            font-size: 1.1rem;
+            color: #9ba3be;
+            margin: 24px 0;
+            font-weight: 600;
+        }
+        button, .remove-btn {
+            background: #ff4d6d;
+            color: #fff;
+            border: none;
+            padding: 9px 18px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: background 0.2s, transform 0.1s;
+        }
+        button:hover, .remove-btn:hover {
+            background: #d7264f;
+            transform: scale(1.05);
+        }
+        footer {
+            text-align: center;
+            padding: 16px 0 12px;
+            background: #313869;
+            color: #e0e7ff;
+            font-size: 1rem;
+            position: relative;
+            bottom: 0;
+            width: 100%;
+            letter-spacing: 1px;
+        }
+        /* Responsive Design */
+        @media (max-width: 700px) {
+            .cart-container {
+                padding: 18px 5px 20px;
+            }
+            table, th, td {
+                font-size: 0.94rem;
+                padding: 8px 4px;
+            }
+            .checkout-button {
+                width: 98%;
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <div class="navbar">
+        <div class="logo">PC BUILDER</div>
+        <a href="system_builder.html"><i class="fa-solid fa-arrow-left"></i> Back to Builder</a>
+    </div>
+
+    <!-- Cart Container -->
+    <div class="cart-container">
+        <h2>Your Cart</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Component</th>
+                    <th>Product</th>
+                    <th>Price</th>
+                    <th>Remove</th>
+                </tr>
+            </thead>
+            <tbody id="cart-items">
+                <!-- Rows will be dynamically added here -->
+            </tbody>
+        </table>
+        <div class="empty-cart" id="empty-cart-message" style="display: none;">Your cart is empty.</div>
+        <div class="total">Total: $<span id="cart-total">0.00</span></div>
+        <button class="checkout-button" onclick="checkout()">Checkout</button>
+    </div>
+
+    <footer>
+        &copy; 2025 PC Builder. All rights reserved.
+    </footer>
+
+    <script>
+        // Load cart items from localStorage
+        function loadCart() {
+            const cartItems = JSON.parse(localStorage.getItem('cart')) || [];
+            const cartTable = document.getElementById('cart-items');
+            const emptyCartMessage = document.getElementById('empty-cart-message');
+            cartTable.innerHTML = ''; // Clear existing rows
+
+            if (cartItems.length === 0) {
+                emptyCartMessage.style.display = 'block';
+            } else {
+                emptyCartMessage.style.display = 'none';
+                cartItems.forEach((item, index) => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${item.component}</td>
+                        <td>${item.product}</td>
+                        <td>$${item.price.toFixed(2)}</td>
+                        <td><button class="remove-btn" onclick="removeFromCart(${index})"><i class="fa fa-trash"></i> Remove</button></td>
+                    `;
+                    cartTable.appendChild(row);
+                });
+            }
+            updateTotal();
+        }
+
+        // Remove an item from the cart
+        function removeFromCart(index) {
+            const cartItems = JSON.parse(localStorage.getItem('cart')) || [];
+            cartItems.splice(index, 1); // Remove the item at the specified index
+            localStorage.setItem('cart', JSON.stringify(cartItems));
+            loadCart(); // Reload the cart
+        }
+
+        // Update the total price
+        function updateTotal() {
+            const cartItems = JSON.parse(localStorage.getItem('cart')) || [];
+            const total = cartItems.reduce((sum, item) => sum + item.price, 0);
+            document.getElementById('cart-total').textContent = total.toFixed(2);
+        }
+
+        // Checkout functionality
+        function checkout() {
+            const cartItems = JSON.parse(localStorage.getItem('cart')) || [];
+            if (cartItems.length === 0) {
+                alert('Your cart is empty.');
+                return;
+            }
+
+            fetch('api/checkout.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ cart: cartItems })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Checkout successful!');
+                    localStorage.removeItem('cart'); // Clear the cart
+                    loadCart(); // Reload the cart
+                } else {
+                    alert(data.error || 'Checkout failed.');
+                }
+            })
+            .catch(error => {
+                console.error('Error during checkout:', error);
+                alert('An error occurred during checkout.');
+            });
+        }
+
+        // Initialize the cart on page load
+        window.onload = loadCart;
+    </script>
+</body>
+</html>

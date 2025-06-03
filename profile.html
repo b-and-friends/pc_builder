@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Profile - PC Builder</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            background: #f1f5f9;
+            font-family: 'Roboto', sans-serif;
+            color: #1e293b;
+            margin: 0;
+            padding: 0;
+        }
+        .navbar {
+            background: #1e293b;
+            color: #fff;
+            padding: 1rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 2px 8px rgba(30,41,59,0.08);
+        }
+        .logo {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.7rem;
+            font-weight: 700;
+            background: linear-gradient(90deg, #00bfff, #3b82f6);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            letter-spacing: 1px;
+        }
+        .main-content {
+            max-width: 600px;
+            margin: 2.5rem auto;
+            background: #fff;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 24px rgba(30,41,59,0.08);
+            padding: 2.5rem 2rem 2rem 2rem;
+        }
+        h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.2rem;
+            color: #2563eb;
+            margin-bottom: 0.5rem;
+            text-align: center;
+        }
+        .subtitle {
+            color: #64748b;
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+        .profile-card {
+            background: #f8fafc;
+            border-radius: 0.5rem;
+            box-shadow: 0 2px 8px rgba(37,99,235,0.06);
+            padding: 2rem 1.5rem 1.5rem 1.5rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            border: 1px solid #e2e8f0;
+        }
+        .avatar {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            background: #e0e7ef;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: #2563eb;
+            margin-bottom: 1rem;
+        }
+        .profile-info {
+            width: 100%;
+            margin-bottom: 1.5rem;
+        }
+        .profile-info label {
+            display: block;
+            color: #64748b;
+            font-size: 0.98rem;
+            margin-bottom: 0.2rem;
+            margin-top: 1rem;
+        }
+        .profile-info input {
+            width: 100%;
+            padding: 0.6rem 1rem;
+            border-radius: 0.375rem;
+            border: 1px solid #cbd5e1;
+            font-size: 1rem;
+            margin-bottom: 0.2rem;
+            background: #fff;
+            color: #1e293b;
+            transition: border 0.2s;
+        }
+        .profile-info input:focus {
+            border: 1.5px solid #2563eb;
+            outline: none;
+        }
+        .profile-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+        .action-btn {
+            background: #2563eb;
+            color: #fff;
+            border: none;
+            border-radius: 0.375rem;
+            padding: 0.6rem 1.5rem;
+            font-weight: 500;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.15s;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+        .action-btn:hover {
+            background: #1e40af;
+            transform: translateY(-1px) scale(1.04);
+        }
+        .action-btn.cancel {
+            background: #e5e7eb;
+            color: #334155;
+        }
+        .action-btn.cancel:hover {
+            background: #cbd5e1;
+        }
+        @media (max-width: 600px) {
+            .main-content {
+                padding: 1.2rem 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <div class="logo">PC BUILDER</div>
+        <div>
+            <a href="dashboard.html" style="color:#fff;text-decoration:none;font-weight:500;margin-right:1.5rem;">Dashboard</a>
+            <a href="login/signin.html" style="color:#fff;text-decoration:none;font-weight:500;"><i class="fas fa-sign-out-alt"></i> Logout</a>
+        </div>
+    </div>
+    <div class="main-content">
+        <h1>Profile</h1>
+        <div class="subtitle">View and edit your account information below.</div>
+        <div class="profile-card">
+            <!-- Profile picture upload -->
+            <form id="avatar-form" enctype="multipart/form-data" style="display:flex;flex-direction:column;align-items:center;">
+                <label for="avatar-upload" style="cursor:pointer;">
+                    <div class="avatar" id="avatar-preview" style="width:140px;height:140px;font-size:5rem;">
+                        <i class="fas fa-user-circle"></i>
+                    </div>
+                    <input type="file" id="avatar-upload" name="avatar" accept="image/*" style="display:none;">
+                </label>
+                <span style="color:#2563eb;font-size:1.1rem;margin-top:0.5rem;margin-bottom:0.5rem;cursor:pointer;" onclick="document.getElementById('avatar-upload').click();">
+                    Add Profile Picture
+                </span>
+                <button type="button" id="upload-avatar-btn" class="action-btn" style="margin-bottom:1rem;display:none;">
+                    <i class="fas fa-upload"></i> Upload Photo
+                </button>
+            </form>
+            <!-- Show logged-in user info -->
+            <div id="logged-in-user" style="margin-bottom:0.5rem;text-align:center;font-weight:600;color:#2563eb;">
+                <!-- Username will be filled by JS -->
+            </div>
+            <!-- Add user info summary -->
+            <div id="user-summary" style="margin-bottom:1.5rem;text-align:center;color:#64748b;font-size:1.05rem;">
+                <!-- User summary will be filled by JS -->
+            </div>
+            <form class="profile-info" id="profile-form">
+                <label for="fullname">Full Name</label>
+                <input type="text" id="fullname" value="" autocomplete="name">
+
+                <label for="email">Email Address</label>
+                <input type="email" id="email" value="" autocomplete="email">
+
+                <label for="phone">Phone Number</label>
+                <input type="text" id="phone" value="" autocomplete="tel">
+
+                <label for="address">Address</label>
+                <input type="text" id="address" value="" autocomplete="street-address">
+
+                <label for="password">Password</label>
+                <input type="password" id="password" value="" autocomplete="new-password">
+            </form>
+            <div class="profile-actions">
+                <button class="action-btn" id="save-btn" type="button"><i class="fas fa-save"></i> Save Changes</button>
+                <button class="action-btn cancel" type="button"><i class="fas fa-times"></i> Cancel</button>
+                <button class="action-btn" id="delete-btn" type="button" style="background:#ef4444;"><i class="fas fa-trash"></i> Delete Account</button>
+            </div>
+            <div id="profile-message" style="margin-top:1rem;text-align:center;font-weight:500;"></div>
+        </div>
+    </div>
+    <script>
+        // Example: Replace with actual user/session logic
+        // Simulate fetching user info from backend or session
+        document.addEventListener('DOMContentLoaded', function() {
+            fetch('get_profile.php')
+                .then(res => res.json())
+                .then(user => {
+                    console.log('Fetched user:', user);
+                    // Show username/email as logged-in user
+                    if (user && (user.fullname || user.full_name || user.email)) {
+                        const fullName = user.fullname || user.full_name || '';
+                        const email = user.email || '';
+                        document.getElementById('logged-in-user').textContent =
+                            fullName ? `Logged in as: ${fullName}` : (email ? `Logged in as: ${email}` : '');
+                    }
+                    // Defensive: check for error and show message if needed
+                    if (user && (user.fullname || user.full_name) && user.email) {
+                        const fullName = user.fullname || user.full_name || '';
+                        document.getElementById('fullname').value = fullName;
+                        document.getElementById('email').value = user.email;
+                        document.getElementById('password').value = '********';
+                        // New fields
+                        if (user.phone) document.getElementById('phone').value = user.phone;
+                        if (user.address) document.getElementById('address').value = user.address;
+                        // Show a summary
+                        document.getElementById('user-summary').innerHTML =
+                            `<strong>Name:</strong> ${fullName}<br>
+                             <strong>Email:</strong> ${user.email}` +
+                            (user.last_login ? `<br><strong>Last Login:</strong> ${user.last_login}` : '') +
+                            (user.created_at ? `<br><strong>Joined:</strong> ${user.created_at}` : '');
+                    } else if (user && user.error) {
+                        alert('Error: ' + user.error);
+                    } else {
+                        alert('No user data found.');
+                    }
+                    // Profile picture preview
+                    if (user && user.avatar_url) {
+                        document.getElementById('avatar-preview').innerHTML =
+                            `<img src="${user.avatar_url}" alt="Avatar" style="width:140px;height:140px;border-radius:50%;object-fit:cover;">`;
+                    } else if (user && user.avatar) {
+                        // Fallback if backend sends 'avatar' field instead of 'avatar_url'
+                        document.getElementById('avatar-preview').innerHTML =
+                            `<img src="${user.avatar}" alt="Avatar" style="width:140px;height:140px;border-radius:50%;object-fit:cover;">`;
+                    } else {
+                        // Show default icon if no avatar
+                        document.getElementById('avatar-preview').innerHTML =
+                            `<i class="fas fa-user-circle"></i>`;
+                    }
+                })
+                .catch(err => {
+                    alert('Failed to fetch user info.');
+                });
+        });
+
+        // Save changes (with validation and success message)
+        document.getElementById('save-btn').onclick = function() {
+            const fullname = document.getElementById('fullname').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const phone = document.getElementById('phone').value.trim();
+            const address = document.getElementById('address').value.trim();
+            const password = document.getElementById('password').value;
+            const msg = document.getElementById('profile-message');
+            msg.textContent = '';
+            // Simple validation
+            if (!fullname || !email) {
+                msg.style.color = "#ef4444";
+                msg.textContent = "Full name and email are required.";
+                return;
+            }
+            fetch('update_profile.php', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({fullname, email, phone, address, password})
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    msg.style.color = "#10b981";
+                    msg.textContent = "Profile updated successfully!";
+                } else {
+                    msg.style.color = "#ef4444";
+                    msg.textContent = data.message || "Failed to update profile.";
+                }
+            });
+        };
+
+        // Delete account button
+        document.getElementById('delete-btn').onclick = function() {
+            if (confirm("Are you sure you want to delete your account? This cannot be undone.")) {
+                fetch('delete_account.php', { method: 'POST' })
+                    .then(res => res.json())
+                    .then(function(data) { // <-- fix: wrap parameter in function
+                        if (data.success) {
+                            alert('Account deleted. Logging out...');
+                            window.location.href = 'login/signin.html';
+                        } else {
+                            alert('Failed to delete account.');
+                        }
+                    });
+            }
+        };
+
+        // Avatar upload preview and button show
+        document.getElementById('avatar-upload').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(evt) {
+                    document.getElementById('avatar-preview').innerHTML =
+                        `<img src="${evt.target.result}" alt="Avatar" style="width:90px;height:90px;border-radius:50%;object-fit:cover;">`;
+                };
+                reader.readAsDataURL(file);
+                document.getElementById('upload-avatar-btn').style.display = 'inline-flex';
+            }
+        });
+
+        // Avatar upload AJAX
+        document.getElementById('upload-avatar-btn').onclick = function() {
+            const input = document.getElementById('avatar-upload');
+            if (!input.files[0]) return;
+            const formData = new FormData();
+            formData.append('avatar', input.files[0]);
+            fetch('upload_avatar.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success && data.avatar_url) {
+                    document.getElementById('avatar-preview').innerHTML =
+                        `<img src="${data.avatar_url}" alt="Avatar" style="width:90px;height:90px;border-radius:50%;object-fit:cover;">`;
+                    document.getElementById('upload-avatar-btn').style.display = 'none';
+                    document.getElementById('profile-message').style.color = "#10b981";
+                    document.getElementById('profile-message').textContent = "Profile picture updated!";
+                } else {
+                    document.getElementById('profile-message').style.color = "#ef4444";
+                    document.getElementById('profile-message').textContent = data.message || "Failed to upload photo.";
+                }
+            });
+        };
+    </script>
+</body>
+</html>

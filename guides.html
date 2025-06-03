@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>PC Building Guides</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet"> 
+  <style>
+    :root {
+      --primary: #005eff;
+      --secondary: #00bfff;
+      --dark: #0a0f1f;
+      --nav-dark: rgba(17, 28, 60, 0.9);
+      --menu-dark: #0d1b40;
+      --light: #ffffff;
+      --gray: #dcdcdc;
+      --dark-gray: #444;
+    }
+
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+    body {
+        font-family: 'Roboto', Arial, sans-serif;
+        background-color: var(--dark);
+        color: var(--light);
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://images.unsplash.com/photo-1518770660439-4636190af475?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+        background-repeat: no-repeat;
+    }
+
+    /* Header/Nav */
+    .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: var(--nav-dark);
+        padding: 15px 30px;
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    }
+    .navbar .logo-search {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        flex-grow: 1;
+    }
+    .navbar .logo {
+        font-size: 2.5rem;
+        font-weight: bold;
+        font-family: 'Orbitron', sans-serif;
+        border: 3px solid var(--secondary);
+        padding: 10px 20px;
+        border-radius: 10px;
+        background: linear-gradient(to bottom, rgb(212, 209, 209) 50%, var(--secondary) 50%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        text-decoration: none;
+        transition: transform 0.3s ease;
+    }
+    .navbar .auth-cart {
+        display: flex;
+        align-items: center;
+        gap: 25px;
+    }
+    .navbar .cart {
+        color: var(--light);
+        text-decoration: none;
+        font-size: 1.2rem;
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        transition: color 0.3s ease;
+    }
+    .menu {
+        display: flex;
+        background-color: var(--menu-dark);
+        padding: 10px 30px;
+        gap: 15px;
+        overflow-x: auto;
+        scrollbar-width: none;
+    }
+    .menu::-webkit-scrollbar { display: none; }
+    .menu a {
+        color: var(--light);
+        text-decoration: none;
+        padding: 10px 20px;
+        display: flex;
+        align-items: center;
+        border: 2px solid var(--light);
+        border-radius: 5px;
+        gap: 10px;
+        white-space: nowrap;
+        transition: all 0.3s ease;
+    }
+    .menu a.active, .menu a:hover {
+        background-color: var(--primary);
+        border-color: var(--primary);
+    }
+
+    h1 {
+      text-align: center;
+      padding: 30px 0;
+      font-size: 2rem;
+      color: #58a6ff;
+    }
+
+    .guides-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+      padding: 0 20px 40px;
+    }
+
+    .guide-card {
+      background: #161b22;
+      border-radius: 12px;
+      width: 300px;
+      padding: 20px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      transition: transform 0.2s, box-shadow 0.2s;
+      position: relative;
+    }
+
+    .guide-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 0 12px #58a6ff;
+    }
+
+    .guide-card img {
+      width: 100%;
+      height: 160px;
+      object-fit: cover;
+      border-radius: 8px;
+      margin-bottom: 15px;
+    }
+
+    .guide-card h3 {
+      color: #ffffff;
+      margin: 10px 0;
+      font-size: 1.2rem;
+    }
+
+    .guide-card p {
+      font-size: 0.95rem;
+      margin-bottom: 20px;
+      color: #8b949e;
+    }
+
+    .btn {
+      background-color: #238636;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background-color 0.2s;
+    }
+
+    .btn:hover {
+      background-color: #2ea043;
+    }
+
+    .steps {
+  margin-top: 15px;
+  text-align: left;
+  background: #0d1117;
+  border: 1px solid #238636;
+  border-radius: 8px;
+  padding: 15px;
+  display: none;
+  /* Remove max-height and scrolling */
+  /* max-height: 300px; */
+  /* overflow-y: auto; */
+  color: #c9d1d9;
+  font-size: 0.9rem;
+}
+
+
+    .steps ul {
+      padding-left: 20px;
+      margin: 0;
+    }
+
+    .steps li {
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+    <header>
+        <nav class="navbar">
+            <div class="logo-search">
+                <a href="/" class="logo">PC BUILDER</a>
+            </div>
+            <div class="auth-cart">
+                <a href="cart.html" class="cart"><i class="fas fa-shopping-cart"></i> Cart</a>
+            </div>
+        </nav>
+        <div class="menu">
+            <a href="index.html"><i class="fas fa-home"></i> Home</a>
+        </div>
+    </header>
+
+  <h1>PC Building Guides</h1>
+  <div class="guides-container">
+
+    <div class="guide-card">
+      <img src="images/guide1.webp" alt="Guide 1" />
+      <h3>How to Build a Gaming PC</h3>
+      <p>Step-by-step instructions to assemble your gaming rig.</p>
+      <button class="btn">Read Guide</button>
+      <div class="steps">
+        <ul>
+          <li>Step 1: Prepare your workspace and tools.</li>
+          <li>Step 2: Install the CPU on the motherboard.</li>
+          <li>Step 3: Attach the CPU cooler.</li>
+          <li>Step 4: Install RAM modules.</li>
+          <li>Step 5: Mount the motherboard in the case.</li>
+          <li>Step 6: Install the power supply unit.</li>
+          <li>Step 7: Connect storage drives.</li>
+          <li>Step 8: Install the graphics card.</li>
+          <li>Step 9: Connect all power cables.</li>
+          <li>Step 10: Power on and install your OS.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="guide-card">
+      <img src="images/guide2.jpg" alt="Guide 2" />
+      <h3>Optimizing Your PC for Gaming</h3>
+      <p>Tips and tricks for getting the best performance.</p>
+      <button class="btn">Read Guide</button>
+      <div class="steps">
+        <ul>
+          <li>Step 1: Update your GPU drivers.</li>
+          <li>Step 2: Adjust in-game settings.</li>
+          <li>Step 3: Overclock your GPU and CPU carefully.</li>
+          <li>Step 4: Use game mode in Windows.</li>
+          <li>Step 5: Optimize startup programs.</li>
+          <li>Step 6: Clean dust from hardware regularly.</li>
+          <li>Step 7: Use high-performance power settings.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="guide-card">
+      <img src="images/guide3.jpg" alt="Guide 3" />
+      <h3>Choosing the Right Components</h3>
+      <p>Guide to selecting the best components for your budget.</p>
+      <button class="btn">Read Guide</button>
+      <div class="steps">
+        <ul>
+          <li>Step 1: Determine your budget.</li>
+          <li>Step 2: Choose your CPU based on needs.</li>
+          <li>Step 3: Select a compatible motherboard.</li>
+          <li>Step 4: Decide on the amount of RAM.</li>
+          <li>Step 5: Pick a suitable graphics card.</li>
+          <li>Step 6: Choose storage types (SSD/HDD).</li>
+          <li>Step 7: Consider power supply wattage.</li>
+          <li>Step 8: Select a case with good airflow.</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    // Select all buttons with class 'btn'
+    const buttons = document.querySelectorAll('.guide-card .btn');
+
+    buttons.forEach(button => {
+      button.addEventListener('click', () => {
+        // Find the corresponding steps container (sibling)
+        const steps = button.nextElementSibling;
+        if (!steps) return;
+
+        // Toggle visibility
+        if (steps.style.display === 'block') {
+          steps.style.display = 'none';
+          button.textContent = 'Read Guide';
+        } else {
+          steps.style.display = 'block';
+          button.textContent = 'Hide Guide';
+        }
+      });
+    });
+  </script>
+</body>
+</html>

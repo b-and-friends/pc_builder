@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Orders - PC Builder</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            background: #f1f5f9;
+            font-family: 'Roboto', sans-serif;
+            color: #1e293b;
+            margin: 0;
+            padding: 0;
+        }
+        .navbar {
+            background: #1e293b;
+            color: #fff;
+            padding: 1rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 2px 8px rgba(30,41,59,0.08);
+        }
+        .logo {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.7rem;
+            font-weight: 700;
+            background: linear-gradient(90deg, #00bfff, #3b82f6);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            letter-spacing: 1px;
+        }
+        .main-content {
+            max-width: 900px;
+            margin: 2.5rem auto;
+            background: #fff;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 24px rgba(30,41,59,0.08);
+            padding: 2.5rem 2rem 2rem 2rem;
+        }
+        h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.2rem;
+            color: #2563eb;
+            margin-bottom: 0.5rem;
+            text-align: center;
+        }
+        .subtitle {
+            color: #64748b;
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+        .orders-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: #f8fafc;
+            border-radius: 0.5rem;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(37,99,235,0.06);
+        }
+        .orders-table th, .orders-table td {
+            padding: 1rem 0.75rem;
+            text-align: left;
+        }
+        .orders-table th {
+            background: #2563eb;
+            color: #fff;
+            font-weight: 600;
+            font-size: 1rem;
+            letter-spacing: 0.5px;
+        }
+        .orders-table tr {
+            border-bottom: 1px solid #e2e8f0;
+        }
+        .orders-table tr:last-child {
+            border-bottom: none;
+        }
+        .orders-table td {
+            color: #334155;
+            font-size: 1rem;
+            vertical-align: middle;
+        }
+        .order-status {
+            padding: 0.35em 1em;
+            border-radius: 1em;
+            font-size: 0.95em;
+            font-weight: 500;
+            display: inline-block;
+        }
+        .status-completed {
+            background: #d1fae5;
+            color: #059669;
+        }
+        .status-pending {
+            background: #fef9c3;
+            color: #b45309;
+        }
+        .status-cancelled {
+            background: #fee2e2;
+            color: #dc2626;
+        }
+        .order-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+        .action-btn {
+            background: #2563eb;
+            color: #fff;
+            border: none;
+            border-radius: 0.375rem;
+            padding: 0.4rem 1rem;
+            font-weight: 500;
+            font-size: 0.97rem;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.15s;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+        .action-btn:hover {
+            background: #1e40af;
+            transform: translateY(-1px) scale(1.04);
+        }
+        .empty-state {
+            text-align: center;
+            color: #94a3b8;
+            margin: 3rem 0 2rem 0;
+        }
+        .empty-state i {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: #cbd5e1;
+        }
+        @media (max-width: 600px) {
+            .main-content {
+                padding: 1.2rem 0.5rem;
+            }
+            .orders-table th, .orders-table td {
+                padding: 0.7rem 0.4rem;
+                font-size: 0.95rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <div class="logo">PC BUILDER</div>
+        <div>
+            <a href="dashboard.html" style="color:#fff;text-decoration:none;font-weight:500;margin-right:1.5rem;">Dashboard</a>
+            <a href="login/signin.html" style="color:#fff;text-decoration:none;font-weight:500;"><i class="fas fa-sign-out-alt"></i> Logout</a>
+        </div>
+    </div>
+    <div class="main-content">
+        <h1 class="page-title">Purchase History</h1>
+        <div id="orders-list"></div>
+        <div id="orders-empty" style="display:none; color:#64748b; margin-top:2rem;">No orders found.</div>
+    </div>
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        fetch('get_profile.php')
+            .then(res => res.json())
+            .then(user => {
+                // Use email as unique user identifier since there is no id/user_id
+                let user_id = null;
+                if (user && typeof user === "object") {
+                    if (user.id) user_id = user.id;
+                    else if (user.user_id) user_id = user.user_id;
+                    else if (user.email) user_id = user.email;
+                }
+                if (!user_id) {
+                    document.getElementById('orders-list').innerHTML = '<div class="empty-state"><i class="fas fa-user-slash"></i><br>Not logged in.</div>';
+                    return;
+                }
+                fetch('orders.php?user_id=' + encodeURIComponent(user_id))
+                    .then(res => res.json())
+                    .then(orders => {
+                        const list = document.getElementById('orders-list');
+                        const empty = document.getElementById('orders-empty');
+                        list.innerHTML = '';
+                        // Debug: Show orders result in console
+                        console.log('orders.php result:', orders);
+
+                        // Show error if orders is not an array or is an error object
+                        if (!Array.isArray(orders)) {
+                            list.innerHTML = '<div class="empty-state"><i class="fas fa-exclamation-triangle"></i><br>orders.php did not return an array.<br>' +
+                                '<pre style="font-size:0.9em;background:#f3f4f6;padding:0.5em;border-radius:6px;">' +
+                                JSON.stringify(orders, null, 2) + '</pre>' +
+                                '<div style="color:#dc2626;margin-top:1em;">' +
+                                'You are making a GET request, but your orders.php expects POST (JSON body).<br>' +
+                                'You need to update orders.php to handle GET requests for order history.<br>' +
+                                'See below for a sample PHP snippet.</div></div>';
+                            empty.style.display = 'none';
+                            return;
+                        }
+
+                        const checkedOutOrders = orders; // show all orders for this user
+                        if (checkedOutOrders.length === 0) {
+                            empty.style.display = 'block';
+                            return;
+                        }
+                        empty.style.display = 'none';
+                        checkedOutOrders.forEach(order => {
+                            list.innerHTML += `
+                                <div style="background:#fff; margin-bottom:1rem; padding:1rem 1.5rem; border-radius:8px; box-shadow:0 1px 4px #e2e8f0;">
+                                    <div><b>Order #${order.id}</b></div>
+                                    <div>Build: <b>${order.build_name || 'N/A'}</b></div>
+                                    <div>Total: $${parseFloat(order.total_price || order.total).toFixed(2)}</div>
+                                    <div>Date: ${order.created_at}</div>
+                                </div>
+                            `;
+                        });
+                    });
+            })
+            .catch((err) => {
+                console.error('get_profile.php fetch error:', err);
+                document.getElementById('orders-list').innerHTML = '<div class="empty-state"><i class="fas fa-user-slash"></i><br>Not logged in.</div>';
+            });
+    });
+    </script>
+</body>
+</html>
